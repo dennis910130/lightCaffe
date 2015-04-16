@@ -11,11 +11,11 @@ def test_layer():
     print layer2.name
 
 
-def test_fullyconnectedlayer():
+def test_inner_product_layer():
     layer = InnerProductLayer(10, 8)
     rand_in = np.random.randn(5, 10)
     print layer.forward(rand_in)
 
 if __name__ == "__main__":
     test_layer()
-    test_fullyconnectedlayer()
+    test_inner_product_layer()
