@@ -12,10 +12,22 @@ def test_layer():
 
 
 def test_inner_product_layer():
-    layer = InnerProductLayer(10, 8)
-    rand_in = np.random.randn(5, 10)
-    print layer.forward(rand_in)
+    layer = InnerProductLayer(5, 10, 8)
+    btm_data = np.random.randn(5, 10)
+    top_diff = np.random.randn(5, 8)
+    layer.forward(btm_data)
+    layer.backward(top_diff)
+    print layer.top_data
+    print layer.W_diff
+
+
+def test_soft_max_layer():
+    layer = SoftMaxLayer(3, 5)
+    btm_data = np.random.randn(3, 5)
+    layer.forward(btm_data)
+    print layer.top_data
 
 if __name__ == "__main__":
-    test_layer()
-    test_inner_product_layer()
+    #test_layer()
+    #test_inner_product_layer()
+    test_soft_max_layer()
