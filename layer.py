@@ -9,6 +9,18 @@ class Layer:
         self.name = name
 
 
+class LossLayer(Layer):
+    def __init__(self, n_batch, label, n_class):
+        self.name = "generic loss layer"
+        self.label = label
+        self.n_class = n_class
+        self.n_batch = n_batch
+        self.btm_data = np.zeros((n_batch, n_class))
+        self.btm_diff = np.zeros_like(self.btm_data)
+        self.loss = np.zeros((n_batch,))
+        self.total_loss = 0.0
+
+
 class InnerProductLayer(Layer):
     def __init__(self, n_batch, n_in, n_out, name="Inner Product Layer"):
         self.name = name
@@ -62,6 +74,7 @@ class SoftMaxLayer(Layer):
         self.btm_data = np.zeros((n_batch, n_in))
         self.top_data = np.zeros_like(self.btm_data)
         self.btm_diff = np.zeros_like(self.btm_data)
+        self.scale_data = np.zeros((n_batch,))
 
     def __debug_information__(self):
         print "name:"
@@ -76,4 +89,24 @@ class SoftMaxLayer(Layer):
         e = np.exp(self.btm_data - maxes)
         self.top_data = e / np.sum(e, axis=1).reshape(maxes.shape[0], 1)
 
+    def backward(self, top_diff):
+        self.btm_diff = top_diff
+        self.scale_data = np.sum(top_diff * self.top_data, axis=1)
+        self.btm_diff = self.btm_diff - self.scale_data.reshape(self.n_batch, 1)
+        self.btm_diff = self.btm_diff * self.top_data
 
+
+class CrossEntropyLossLayer(LossLayer):
+    def __init__(self, n_batch, n_class, label, name="Cross Entropy Loss Layer"):
+        LossLayer.__init__(self, n_batch, label, n_class)
+        self.name = name
+
+    def forward(self, btm_data):
+        self.btm_data = btm_data
+        self.loss = - np.log(btm_data)[np.arange(self.n_batch), self.label]
+        self.total_loss = np.mean(self.loss)
+
+    def backward(self):
+        mask = np.zeros_like(self.btm_data)
+        mask[np.arange(self.n_batch), self.label] = 1
+        self.btm_diff = - 1 / self.btm_data * mask
