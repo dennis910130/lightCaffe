@@ -8,6 +8,7 @@ import time
 import numpy as np
 from lightCaffe.layer import *
 
+
 def load_data(data_set):
     print '... loading data'
     f = gzip.open(data_set, 'rb')
@@ -34,8 +35,64 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, data_set="../data/
 
     ip_layer = InnerProductLayer(batch_size, 28*28, 10)
     soft_max_layer = SoftMaxLayer(batch_size, 10)
-    loss_layer = LossLayer(batch_size)
+    loss_layer = CrossEntropyLossLayer(batch_size, 10)
 
+    print '... training the model'
+
+    validation_frequency = n_train_batches
+
+    #test_score = 0.
+    start_time = time.clock()
+    epoch = 0
+
+    while epoch < n_epochs:
+        epoch += 1
+        for mini_batch_index in xrange(n_train_batches):
+
+            data_input = train_set_x[mini_batch_index * batch_size: (mini_batch_index + 1) * batch_size]
+            label = train_set_y[mini_batch_index * batch_size: (mini_batch_index + 1) * batch_size]
+
+            ip_layer.forward(data_input)
+            soft_max_layer.forward(ip_layer.top_data)
+            loss_layer.forward(soft_max_layer.top_data, label)
+            print 'epoch %i, mini_batch %i/%i, loss %f %%' % (epoch,
+                                                              mini_batch_index,
+                                                              n_train_batches,
+                                                              loss_layer.total_loss)
+
+            loss_layer.backward()
+            soft_max_layer.backward(loss_layer.btm_diff)
+            ip_layer.backward(soft_max_layer.btm_diff)
+
+            ip_layer.update(learning_rate, learning_rate)
+
+            iteration = (epoch - 1) * n_train_batches + mini_batch_index
+            if (iteration + 1) % validation_frequency == 0:
+                validation_loss = 0.
+                validation_error = 0.
+                for i in xrange(n_valid_batches):
+                    data_input = valid_set_x[i * batch_size: (i + 1) * batch_size]
+                    label = valid_set_y[i * batch_size: (i + 1) * batch_size]
+
+                    ip_layer.forward(data_input)
+                    soft_max_layer.forward(ip_layer.top_data)
+                    loss_layer.forward(soft_max_layer.top_data, label)
+                    validation_loss += loss_layer.total_loss
+                    validation_error += loss_layer.error()
+                validation_loss /= n_valid_batches
+                validation_error /= n_valid_batches
+                print 'epoch %i, mini_batch %i/%i, validation loss %f %%, error %f %%' % (epoch,
+                                                                                          mini_batch_index,
+                                                                                          n_train_batches,
+                                                                                          validation_loss,
+                                                                                          validation_error)
+
+    end_time = time.clock()
+    print 'The code ran for %.1fs' % (end_time - start_time)
+
+
+if __name__ == '__main__':
+    sgd_optimization_mnist()
 
 
 

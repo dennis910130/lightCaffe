@@ -19,6 +19,7 @@ class LossLayer(Layer):
         self.btm_diff = np.zeros_like(self.btm_data)
         self.loss = np.zeros((n_batch,))
         self.total_loss = 0.0
+        self.prediction = np.zeros((n_batch,), np.int16)
 
 
 class InnerProductLayer(Layer):
@@ -111,3 +112,7 @@ class CrossEntropyLossLayer(LossLayer):
         mask = np.zeros_like(self.btm_data)
         mask[np.arange(self.n_batch), self.label] = 1
         self.btm_diff = - 1 / self.btm_data * mask
+
+    def error(self):
+        self.prediction = np.argmax(self.btm_data, axis=1)
+        return np.mean(np.not_equal(self.prediction, self.label))
