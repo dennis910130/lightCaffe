@@ -1,5 +1,5 @@
 __author__ = 'sichen'
-from layer import *
+from lightCaffe.layer import *
 
 
 def check_soft_max_loss_layer():

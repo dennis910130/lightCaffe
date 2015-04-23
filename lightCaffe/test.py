@@ -1,7 +1,5 @@
 __author__ = 'sichen'
-import numpy as np
-import scipy as sp
-from layer import *
+from lightCaffe.layer import *
 
 
 def test_layer():
