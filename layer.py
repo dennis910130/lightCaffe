@@ -33,7 +33,7 @@ class InnerProductLayer(Layer):
         self.top_data = np.zeros((n_batch, n_out))
         self.btm_diff = np.zeros_like(self.btm_data)
         self.W_diff = np.zeros_like(self.W)
-        self.b_diff = np.zeros_like(self.b_diff)
+        self.b_diff = np.zeros_like(self.b)
 
     def __debug_information__(self):
         print "name:"
@@ -101,10 +101,11 @@ class CrossEntropyLossLayer(LossLayer):
         LossLayer.__init__(self, n_batch, label, n_class)
         self.name = name
 
-    def forward(self, btm_data):
+    def forward(self, btm_data, label):
+        self.label = label
         self.btm_data = btm_data
         self.loss = - np.log(btm_data)[np.arange(self.n_batch), self.label]
-        self.total_loss = np.mean(self.loss)
+        self.total_loss = np.sum(self.loss)
 
     def backward(self):
         mask = np.zeros_like(self.btm_data)
