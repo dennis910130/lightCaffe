@@ -116,3 +116,22 @@ class CrossEntropyLossLayer(LossLayer):
     def error(self):
         self.prediction = np.argmax(self.btm_data, axis=1)
         return np.mean(np.not_equal(self.prediction, self.label))
+
+
+class ReLULayer(Layer):
+    def __init__(self, n_batch, n_in, name="ReLU Layer"):
+        self.name = name
+        self.n_batch = n_batch
+        self.n_in = n_in
+        self.btm_data = np.zeros((n_batch, n_in))
+        self.top_data = np.zeros((n_batch, n_in))
+        self.btm_diff = np.zeros_like(self.btm_data)
+        self.top_diff = np.zeros_like(self.top_data)
+
+    def forward(self, btm_data):
+        self.btm_data = btm_data
+        self.top_data = self.btm_data * (self.btm_data > 0)
+
+    def backward(self, top_diff):
+        self.top_diff = top_diff
+        self.btm_diff = 1. * (self.top_diff > 0)
