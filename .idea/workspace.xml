@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4059f606-1120-4231-b3d4-37aaeb44917d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightCaffe/layer.py" afterPath="$PROJECT_DIR$/lightCaffe/layer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/logistic_regression.py" afterPath="$PROJECT_DIR$/example/logistic_regression.py" />
     </list>
     <ignored path="lightCaffe.iws" />
@@ -30,8 +29,8 @@
       <file leaf-file-name="logistic_regression.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example/logistic_regression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6476938" vertical-offset="405" max-vertical-offset="1590">
-              <caret line="71" column="36" selection-start-line="71" selection-start-column="36" selection-end-line="71" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.2060844" vertical-offset="0" max-vertical-offset="1545">
+              <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
               <folding>
                 <element signature="e#22#36#0" expanded="true" />
               </folding>
@@ -434,8 +433,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example/logistic_regression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6476938" vertical-offset="405" max-vertical-offset="1590">
-          <caret line="71" column="36" selection-start-line="71" selection-start-column="36" selection-end-line="71" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.2060844" vertical-offset="0" max-vertical-offset="1545">
+          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
           <folding>
             <element signature="e#22#36#0" expanded="true" />
           </folding>

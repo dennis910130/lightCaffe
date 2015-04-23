@@ -1,11 +1,8 @@
 __author__ = 'sichen'
 import cPickle
 import gzip
-import os
-import sys
 import time
 
-import numpy as np
 from lightCaffe.layer import *
 
 
