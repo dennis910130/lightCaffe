@@ -7,7 +7,7 @@ def check_soft_max_loss_layer():
     btm_data = np.random.randn(3, 5)
     layer.forward(btm_data)
     label = np.array([1, 2, 0])
-    loss_layer = CrossEntropyLossLayer(3, 5, label)
+    loss_layer = CrossEntropyLossLayer(3, 5)
     loss_layer.forward(layer.top_data, label)
     loss_layer.backward()
     layer.backward(loss_layer.btm_diff)
@@ -35,7 +35,7 @@ def check_inner_product_layer():
     soft_max_layer = SoftMaxLayer(5, 8)
     soft_max_layer.forward(layer.top_data)
     label = np.array([1, 2, 0, 7, 6])
-    loss_layer = CrossEntropyLossLayer(5, 8, label)
+    loss_layer = CrossEntropyLossLayer(5, 8)
     loss_layer.forward(soft_max_layer.top_data, label)
     total_loss = loss_layer.total_loss
     eps = 1e-5

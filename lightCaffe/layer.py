@@ -10,9 +10,9 @@ class Layer:
 
 
 class LossLayer(Layer):
-    def __init__(self, n_batch, label, n_class):
+    def __init__(self, n_batch, n_class):
         self.name = "generic loss layer"
-        self.label = label
+        self.label = np.zeros((n_batch,), np.int16)
         self.n_class = n_class
         self.n_batch = n_batch
         self.btm_data = np.zeros((n_batch, n_class))
@@ -97,8 +97,8 @@ class SoftMaxLayer(Layer):
 
 
 class CrossEntropyLossLayer(LossLayer):
-    def __init__(self, n_batch, n_class, label, name="Cross Entropy Loss Layer"):
-        LossLayer.__init__(self, n_batch, label, n_class)
+    def __init__(self, n_batch, n_class, name="Cross Entropy Loss Layer"):
+        LossLayer.__init__(self, n_batch, n_class)
         self.name = name
 
     def forward(self, btm_data, label):

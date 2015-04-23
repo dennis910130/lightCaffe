@@ -34,7 +34,7 @@ def test_cross_entropy_layer():
     btm_data = np.random.randn(3, 5)
     layer.forward(btm_data)
     label = np.array([1, 2, 0])
-    loss_layer = CrossEntropyLossLayer(3, 5, label)
+    loss_layer = CrossEntropyLossLayer(3, 5)
     loss_layer.forward(layer.top_data, label)
     print loss_layer.loss
     print loss_layer.total_loss
