@@ -25,8 +25,8 @@ class LossLayer(Layer):
 class InnerProductLayer(Layer):
     def __init__(self, n_batch, n_in, n_out, name="Inner Product Layer"):
         self.name = name
-        self.W = np.random.randn(n_in, n_out)
-        self.b = np.random.randn(n_out)
+        self.W = np.random.randn(n_in, n_out) / 1e3
+        self.b = np.random.randn(n_out) / 1e3
         self.n_in = n_in
         self.n_out = n_out
         self.n_batch = n_batch

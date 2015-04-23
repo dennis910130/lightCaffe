@@ -22,6 +22,7 @@ def load_data(data_set):
 
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, data_set="../data/mnist.pkl.gz", batch_size=600):
 
+    learning_rate /= batch_size
     data_sets = load_data(data_set)
     train_set_x, train_set_y = data_sets[0]
     valid_set_x, valid_set_y = data_sets[1]
@@ -40,6 +41,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, data_set="../data/
     print '... training the model'
 
     validation_frequency = n_train_batches
+    print_frequency = 20
 
     #test_score = 0.
     start_time = time.clock()
@@ -51,22 +53,21 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, data_set="../data/
 
             data_input = train_set_x[mini_batch_index * batch_size: (mini_batch_index + 1) * batch_size]
             label = train_set_y[mini_batch_index * batch_size: (mini_batch_index + 1) * batch_size]
-
             ip_layer.forward(data_input)
             soft_max_layer.forward(ip_layer.top_data)
             loss_layer.forward(soft_max_layer.top_data, label)
-            print 'epoch %i, mini_batch %i/%i, loss %f %%' % (epoch,
-                                                              mini_batch_index,
-                                                              n_train_batches,
-                                                              loss_layer.total_loss)
 
             loss_layer.backward()
             soft_max_layer.backward(loss_layer.btm_diff)
             ip_layer.backward(soft_max_layer.btm_diff)
-
             ip_layer.update(learning_rate, learning_rate)
 
             iteration = (epoch - 1) * n_train_batches + mini_batch_index
+            if (iteration + 1) % print_frequency == 0:
+                print 'epoch %i, mini_batch %i/%i, loss %f %%' % (epoch,
+                                                                  mini_batch_index,
+                                                                  n_train_batches,
+                                                                  loss_layer.total_loss)
             if (iteration + 1) % validation_frequency == 0:
                 validation_loss = 0.
                 validation_error = 0.
