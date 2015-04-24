@@ -11,30 +11,30 @@ class Layer:
 
 class LossLayer(Layer):
     def __init__(self, n_batch, n_class):
-        self.name = "generic loss layer"
-        self.label = np.zeros((n_batch,), np.int16)
+        Layer.__init__(self, "Loss Layer")
+        self.label = None
         self.n_class = n_class
         self.n_batch = n_batch
-        self.btm_data = np.zeros((n_batch, n_class))
-        self.btm_diff = np.zeros_like(self.btm_data)
-        self.loss = np.zeros((n_batch,))
+        self.btm_data = None
+        self.btm_diff = None
+        self.loss = None
         self.total_loss = 0.0
-        self.prediction = np.zeros((n_batch,), np.int16)
+        self.prediction = None
 
 
 class InnerProductLayer(Layer):
     def __init__(self, n_batch, n_in, n_out, name="Inner Product Layer"):
-        self.name = name
+        Layer.__init__(self, name)
         self.W = np.random.randn(n_in, n_out) / 1e3
         self.b = np.random.randn(n_out) / 1e3
         self.n_in = n_in
         self.n_out = n_out
         self.n_batch = n_batch
-        self.btm_data = np.zeros((n_batch, n_in))
-        self.top_data = np.zeros((n_batch, n_out))
-        self.btm_diff = np.zeros_like(self.btm_data)
-        self.W_diff = np.zeros_like(self.W)
-        self.b_diff = np.zeros_like(self.b)
+        self.btm_data = None
+        self.top_data = None
+        self.btm_diff = None
+        self.W_diff = None
+        self.b_diff = None
 
     def __debug_information__(self):
         print "name:"
@@ -69,13 +69,13 @@ class InnerProductLayer(Layer):
 
 class SoftMaxLayer(Layer):
     def __init__(self, n_batch, n_in, name="SoftMax Layer"):
-        self.name = name
+        Layer.__init__(self, name)
         self.n_batch = n_batch
         self.n_in = n_in
-        self.btm_data = np.zeros((n_batch, n_in))
-        self.top_data = np.zeros_like(self.btm_data)
-        self.btm_diff = np.zeros_like(self.btm_data)
-        self.scale_data = np.zeros((n_batch,))
+        self.btm_data = None
+        self.top_data = None
+        self.btm_diff = None
+        self.scale_data = None
 
     def __debug_information__(self):
         print "name:"
@@ -120,13 +120,13 @@ class CrossEntropyLossLayer(LossLayer):
 
 class ReLULayer(Layer):
     def __init__(self, n_batch, n_in, name="ReLU Layer"):
-        self.name = name
+        Layer.__init__(self, name)
         self.n_batch = n_batch
         self.n_in = n_in
-        self.btm_data = np.zeros((n_batch, n_in))
-        self.top_data = np.zeros((n_batch, n_in))
-        self.btm_diff = np.zeros_like(self.btm_data)
-        self.top_diff = np.zeros_like(self.top_data)
+        self.btm_data = None
+        self.top_data = None
+        self.btm_diff = None
+        self.top_diff = None
 
     def forward(self, btm_data):
         self.btm_data = btm_data
