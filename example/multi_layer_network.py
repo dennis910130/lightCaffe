@@ -17,7 +17,7 @@ def load_data(data_set):
     return [(train_set_x, train_set_y), (valid_set_x, valid_set_y), (test_set_x, test_set_y)]
 
 
-def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=600):
+def sgd_optimization_mnist(learning_rate=0.01, n_epochs=1000, data_set="../data/mnist.pkl.gz", batch_size=20, n_hidden=500):
 
     learning_rate /= batch_size
     data_sets = load_data(data_set)
@@ -31,7 +31,9 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mn
 
     print '... initializing network'
 
-    ip_layer = InnerProductLayer(batch_size, 28*28, 10)
+    ip_layer_1 = InnerProductLayer(batch_size, 28*28, 500)
+    relu_layer = ReLULayer(batch_size, 500)
+    ip_layer_2 = InnerProductLayer(batch_size, 500, 10)
     soft_max_layer = SoftMaxLayer(batch_size, 10)
     loss_layer = CrossEntropyLossLayer(batch_size, 10)
 
@@ -50,21 +52,25 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mn
 
             data_input = train_set_x[mini_batch_index * batch_size: (mini_batch_index + 1) * batch_size]
             label = train_set_y[mini_batch_index * batch_size: (mini_batch_index + 1) * batch_size]
-            ip_layer.forward(data_input)
-            soft_max_layer.forward(ip_layer.top_data)
+            ip_layer_1.forward(data_input)
+            relu_layer.forward(ip_layer_1.top_data)
+            ip_layer_2.forward(relu_layer.top_data)
+            soft_max_layer.forward(ip_layer_2.top_data)
             loss_layer.forward(soft_max_layer.top_data, label)
 
             loss_layer.backward()
             soft_max_layer.backward(loss_layer.btm_diff)
-            ip_layer.backward(soft_max_layer.btm_diff)
-            ip_layer.update(learning_rate, learning_rate)
-
+            ip_layer_2.backward(soft_max_layer.btm_diff)
+            relu_layer.backward(ip_layer_2.btm_diff)
+            ip_layer_1.backward(relu_layer.btm_diff)
+            ip_layer_1.update(learning_rate, learning_rate)
+            ip_layer_2.update(learning_rate, learning_rate)
             iteration = (epoch - 1) * n_train_batches + mini_batch_index
             if (iteration + 1) % print_frequency == 0:
                 print 'epoch %i, mini_batch %i/%i, loss %f' % (epoch,
-                                                                  mini_batch_index,
-                                                                  n_train_batches,
-                                                                  loss_layer.total_loss)
+                                                                 mini_batch_index,
+                                                                 n_train_batches,
+                                                                 loss_layer.total_loss)
             if (iteration + 1) % validation_frequency == 0:
                 validation_loss = 0.
                 validation_error = 0.
@@ -72,8 +78,10 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mn
                     data_input = valid_set_x[i * batch_size: (i + 1) * batch_size]
                     label = valid_set_y[i * batch_size: (i + 1) * batch_size]
 
-                    ip_layer.forward(data_input)
-                    soft_max_layer.forward(ip_layer.top_data)
+                    ip_layer_1.forward(data_input)
+                    relu_layer.forward(ip_layer_1.top_data)
+                    ip_layer_2.forward(relu_layer.top_data)
+                    soft_max_layer.forward(ip_layer_2.top_data)
                     loss_layer.forward(soft_max_layer.top_data, label)
                     validation_loss += loss_layer.total_loss
                     validation_error += loss_layer.error()

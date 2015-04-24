@@ -134,4 +134,4 @@ class ReLULayer(Layer):
 
     def backward(self, top_diff):
         self.top_diff = top_diff
-        self.btm_diff = 1. * (self.top_diff > 0)
+        self.btm_diff = 1. * (self.btm_data > 0) * top_diff
