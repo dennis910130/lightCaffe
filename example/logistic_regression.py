@@ -17,7 +17,7 @@ def load_data(data_set):
     return [(train_set_x, train_set_y), (valid_set_x, valid_set_y), (test_set_x, test_set_y)]
 
 
-def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000, data_set="../data/mnist.pkl.gz", batch_size=600):
+def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=600):
 
     learning_rate /= batch_size
     data_sets = load_data(data_set)
