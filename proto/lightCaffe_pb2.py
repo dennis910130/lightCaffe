@@ -19,7 +19,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='lightCaffe.proto',
   package='lightCaffe',
-  serialized_pb=_b('\n\x10lightCaffe.proto\x12\nlightCaffe\"G\n\x0cNetParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12)\n\x05layer\x18\x02 \x03(\x0b\x32\x1a.lightCaffe.LayerParameter\"\xda\x01\n\x0eLayerParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12)\n\x07include\x18\x05 \x03(\x0b\x32\x18.lightCaffe.NetStateRule\x12$\n\x05param\x18\x06 \x03(\x0b\x32\x15.lightCaffe.ParamSpec\x12>\n\x13inner_product_param\x18\x66 \x01(\x0b\x32!.lightCaffe.InnerProductParameter\"0\n\x0cNetStateRule\x12 \n\x05phase\x18\x01 \x01(\x0e\x32\x11.lightCaffe.Phase\"D\n\tParamSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\x07lr_mult\x18\x02 \x01(\x02:\x01\x31\x12\x15\n\ndecay_mult\x18\x04 \x01(\x02:\x01\x31\"D\n\x15InnerProductParameter\x12\x12\n\nnum_output\x18\x01 \x01(\r\x12\x17\n\tbias_term\x18\x02 \x01(\x08:\x04true*\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01')
+  serialized_pb=_b('\n\x10lightCaffe.proto\x12\nlightCaffe\"G\n\x0cNetParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12)\n\x05layer\x18\x02 \x03(\x0b\x32\x1a.lightCaffe.LayerParameter\"\xbd\x01\n\x0eLayerParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12)\n\x07include\x18\x05 \x03(\x0b\x32\x18.lightCaffe.NetStateRule\x12$\n\x05param\x18\x06 \x03(\x0b\x32\x15.lightCaffe.ParamSpec\x12>\n\x13inner_product_param\x18\x66 \x01(\x0b\x32!.lightCaffe.InnerProductParameter\"0\n\x0cNetStateRule\x12 \n\x05phase\x18\x01 \x01(\x0e\x32\x11.lightCaffe.Phase\"D\n\tParamSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\x07lr_mult\x18\x02 \x01(\x02:\x01\x31\x12\x15\n\ndecay_mult\x18\x04 \x01(\x02:\x01\x31\"D\n\x15InnerProductParameter\x12\x12\n\nnum_output\x18\x01 \x01(\r\x12\x17\n\tbias_term\x18\x02 \x01(\x08:\x04true*\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -40,8 +40,8 @@ _PHASE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=516,
-  serialized_end=544,
+  serialized_start=487,
+  serialized_end=515,
 )
 _sym_db.RegisterEnumDescriptor(_PHASE)
 
@@ -110,35 +110,21 @@ _LAYERPARAMETER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='bottom', full_name='lightCaffe.LayerParameter.bottom', index=2,
-      number=3, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='top', full_name='lightCaffe.LayerParameter.top', index=3,
-      number=4, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='include', full_name='lightCaffe.LayerParameter.include', index=4,
+      name='include', full_name='lightCaffe.LayerParameter.include', index=2,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='param', full_name='lightCaffe.LayerParameter.param', index=5,
+      name='param', full_name='lightCaffe.LayerParameter.param', index=3,
       number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='inner_product_param', full_name='lightCaffe.LayerParameter.inner_product_param', index=6,
+      name='inner_product_param', full_name='lightCaffe.LayerParameter.inner_product_param', index=4,
       number=102, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -156,7 +142,7 @@ _LAYERPARAMETER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=106,
-  serialized_end=324,
+  serialized_end=295,
 )
 
 
@@ -185,8 +171,8 @@ _NETSTATERULE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=326,
-  serialized_end=374,
+  serialized_start=297,
+  serialized_end=345,
 )
 
 
@@ -229,8 +215,8 @@ _PARAMSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=376,
-  serialized_end=444,
+  serialized_start=347,
+  serialized_end=415,
 )
 
 
@@ -266,8 +252,8 @@ _INNERPRODUCTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=446,
-  serialized_end=514,
+  serialized_start=417,
+  serialized_end=485,
 )
 
 _NETPARAMETER.fields_by_name['layer'].message_type = _LAYERPARAMETER

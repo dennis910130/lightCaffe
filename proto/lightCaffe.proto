@@ -8,8 +8,8 @@ message NetParameter {
 message LayerParameter {
     optional string name = 1;
     optional string type = 2;
-    repeated string bottom = 3;
-    repeated string top = 4;
+    //repeated string bottom = 3;
+    //repeated string top = 4;
     repeated NetStateRule include = 5;
     repeated ParamSpec param = 6;
 
