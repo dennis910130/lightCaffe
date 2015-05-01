@@ -1,0 +1,38 @@
+package lightCaffe;
+
+message NetParameter {
+    optional string name = 1;
+    repeated LayerParameter layer = 2;
+}
+
+message LayerParameter {
+    optional string name = 1;
+    optional string type = 2;
+    repeated string bottom = 3;
+    repeated string top = 4;
+    repeated NetStateRule include = 5;
+    repeated ParamSpec param = 6;
+
+    optional InnerProductParameter inner_product_param = 102;
+}
+
+message NetStateRule {
+    optional Phase phase = 1;
+};
+
+message ParamSpec {
+    optional string name = 1;
+    optional float lr_mult = 2 [default = 1.0];
+    optional float decay_mult = 4 [default = 1.0];
+};
+
+
+message InnerProductParameter {
+    optional uint32 num_output = 1;
+    optional bool bias_term = 2 [default = true];
+}
+
+enum Phase {
+    TRAIN = 0;
+    TEST = 1;
+}

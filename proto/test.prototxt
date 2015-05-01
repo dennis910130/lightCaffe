@@ -1,0 +1,13 @@
+name: "TEST"
+layer {
+    name: "test_layer"
+    type: "ip"
+    bottom: "data"
+    top: "ip1"
+    include {
+        phase: TEST
+    }
+    inner_product_param {
+        num_output: 20
+    }
+}
