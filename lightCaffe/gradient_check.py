@@ -2,30 +2,54 @@ __author__ = 'sichen'
 from lightCaffe.layer import *
 
 
-def check_soft_max_loss_layer():
+def check_soft_max_layer():
     layer = SoftMaxLayer(3, 5)
     btm_data = np.random.randn(3, 5)
     layer.forward(btm_data)
-    label = np.array([1, 2, 0])
+    top_diff = np.random.randn(3, 5)
+    layer.backward(top_diff)
+    gradient = layer.btm_diff
+    numerical_gradient = np.zeros((3, 5))
+    top_data = layer.top_data
+    eps = 1e-5
+    for i in range(0, 3):
+        for j in range(0, 5):
+            btm_data[i, j] += eps
+            layer.forward(btm_data)
+            delta_top_data = layer.top_data - top_data
+            delta_loss = np.sum(delta_top_data * top_diff)
+            numerical_gradient[i, j] = delta_loss / eps
+            btm_data[i, j] -= eps
+    print "SOFT MAX LOSS LAYER:"
+    if np.linalg.norm(numerical_gradient - gradient) < 1e-3:
+        print "passed!"
+    else:
+        print "failed!"
+
+
+def check_cross_entropy_loss_layer():
+    soft_max_layer = SoftMaxLayer(3, 5)
+    btm_data = np.random.randn(3, 5)
+    soft_max_layer.forward(btm_data)
     loss_layer = CrossEntropyLossLayer(3, 5)
-    loss_layer.forward(layer.top_data, label)
+    label = np.array([1, 2, 0])
+    loss_layer.forward(soft_max_layer.top_data, label)
     loss_layer.backward()
-    layer.backward(loss_layer.btm_diff)
-    numerical_gradient = np.zeros((3,5))
+    gradient = loss_layer.btm_diff
+    numerical_gradient = np.zeros((3, 5))
     total_loss = loss_layer.total_loss
     eps = 1e-5
     for i in range(0, 3):
         for j in range(0, 5):
-            btm_data[i,j] += eps
-            layer.forward(btm_data)
-            loss_layer.forward(layer.top_data, label)
+            soft_max_layer.top_data[i,j] += eps
+            loss_layer.forward(soft_max_layer.top_data, label)
             numerical_gradient[i,j] = (loss_layer.total_loss - total_loss)/eps
-            btm_data[i,j] -= eps
-    print "SOFT MAX LOSS LAYER:"
-    if np.linalg.norm(numerical_gradient - layer.btm_diff) < 1e-3:
-        print "passed!"
+            soft_max_layer.top_data[i,j] -= eps
+    print 'Cross Entropy Layer:'
+    if np.linalg.norm(numerical_gradient - gradient) < 1e-3:
+        print 'passed!'
     else:
-        print "failed!"
+        print 'failed!'
 
 
 def check_inner_product_layer():
@@ -114,6 +138,7 @@ def check_relu_layer():
         print "failed!"
 
 if __name__ == '__main__':
-    check_soft_max_loss_layer()
+    check_cross_entropy_loss_layer()
+    check_soft_max_layer()
     check_inner_product_layer()
     check_relu_layer()
