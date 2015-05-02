@@ -53,6 +53,7 @@ class PklDataLayer(DataLayer):
         self.batch_index_val = 0
         self.batch_index_test = 0
         self.n_out = 0
+        self.epoch_index = 1
 
     def load_data(self):
         print '... loading data'
@@ -71,21 +72,25 @@ class PklDataLayer(DataLayer):
         batch_data = (self.train_set_x[self.batch_index_train * self.n_batch : (self.batch_index_train + 1) * self.n_batch], \
                       self.train_set_y[self.batch_index_train * self.n_batch : (self.batch_index_train + 1) * self.n_batch])
         self.batch_index_train += 1
-        self.batch_index_train %= self.n_train_batches
+        if self.batch_index_train >= self.n_train_batches:
+            self.epoch_index += 1
+            self.batch_index_train -= self.n_train_batches
         return batch_data
 
     def get_next_batch_test(self):
         batch_data = (self.test_set_x[self.batch_index_test * self.n_batch : (self.batch_index_test + 1) * self.n_batch], \
                       self.test_set_y[self.batch_index_test * self.n_batch : (self.batch_index_test + 1) * self.n_batch])
         self.batch_index_test += 1
-        self.batch_index_test %= self.n_test_batches
+        if self.batch_index_test >= self.n_test_batches:
+            self.batch_index_test -= self.n_test_batches
         return batch_data
 
     def get_next_batch_val(self):
         batch_data = (self.val_set_x[self.batch_index_val * self.n_batch : (self.batch_index_val + 1) * self.n_batch], \
                       self.val_set_y[self.batch_index_val * self.n_batch : (self.batch_index_val + 1) * self.n_batch])
         self.batch_index_val += 1
-        self.batch_index_val %= self.n_val_batches
+        if self.batch_index_val >= self.n_val_batches:
+            self.batch_index_val -= self.n_val_batches
         return batch_data
 
 
