@@ -32,10 +32,15 @@ def sgd_optimization_mnist(learning_rate=0.01, n_epochs=1000, data_set="../data/
     print '... initializing network'
 
     ip_layer_1 = InnerProductLayer(batch_size, 28*28, 500)
+    ip_layer_1.print_information()
     relu_layer = ReLULayer(batch_size, 500)
+    relu_layer.print_information()
     ip_layer_2 = InnerProductLayer(batch_size, 500, 10)
+    ip_layer_2.print_information()
     soft_max_layer = SoftMaxLayer(batch_size, 10)
+    soft_max_layer.print_information()
     loss_layer = CrossEntropyLossLayer(batch_size, 10)
+    loss_layer.print_information()
 
     print '... training the model'
 

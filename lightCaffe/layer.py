@@ -15,11 +15,11 @@ class Layer:
         self.btm_diff = None
         self.need_update = False
 
-    def __information__(self):
-        print '------------------------------------------------------------------------------------------'
-        print "%30s: n_batch %4i, n_in %4i, n_out %4i, need_update %r" \
+    def print_information(self):
+        print '----------------------------------------------------------------------------------'
+        print "%25s: n_batch %4i, n_in %4i, n_out %4i, need_update %r" \
               % (self.name, self.n_batch, self.n_in, self.n_out, self.need_update)
-        print '------------------------------------------------------------------------------------------'
+        print '----------------------------------------------------------------------------------'
 
 
 class LossLayer(Layer):
