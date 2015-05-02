@@ -5,18 +5,28 @@ import scipy as sp
 
 
 class Layer:
-    def __init__(self, name="default"):
+    def __init__(self, n_in, n_out, n_batch, name="default"):
         self.name = name
+        self.n_in = n_in
+        self.n_out = n_out
+        self.n_batch = n_batch
+        self.btm_data = None
+        self.top_data = None
+        self.btm_diff = None
+        self.need_update = False
+
+    def __information__(self):
+        print '------------------------------------------------------------------------------------------'
+        print "%30s: n_batch %4i, n_in %4i, n_out %4i, need_update %r" \
+              % (self.name, self.n_batch, self.n_in, self.n_out, self.need_update)
+        print '------------------------------------------------------------------------------------------'
 
 
 class LossLayer(Layer):
-    def __init__(self, n_batch, n_class):
-        Layer.__init__(self, "Loss Layer")
+    def __init__(self, n_in, n_out, n_batch, n_class, name="Loss Layer"):
+        Layer.__init__(self, n_in, n_out, n_batch, name)
         self.label = None
         self.n_class = n_class
-        self.n_batch = n_batch
-        self.btm_data = None
-        self.btm_diff = None
         self.loss = None
         self.total_loss = 0.0
         self.prediction = None
@@ -24,31 +34,12 @@ class LossLayer(Layer):
 
 class InnerProductLayer(Layer):
     def __init__(self, n_batch, n_in, n_out, name="Inner Product Layer"):
-        Layer.__init__(self, name)
+        Layer.__init__(self, n_in, n_out, n_batch, name)
         self.W = np.random.randn(n_in, n_out) / 1e3
         self.b = np.random.randn(n_out) / 1e3
-        self.n_in = n_in
-        self.n_out = n_out
-        self.n_batch = n_batch
-        self.btm_data = None
-        self.top_data = None
-        self.btm_diff = None
         self.W_diff = None
         self.b_diff = None
-
-    def __debug_information__(self):
-        print "name:"
-        print self.name
-        print "n_batch:"
-        print self.n_batch
-        print "n_in:"
-        print self.n_in
-        print "n_out:"
-        print self.n_out
-        print "W:"
-        print self.W
-        print "b:"
-        print self.b
+        self.need_update = True
 
     def forward(self, btm_data):
         self.btm_data = btm_data
@@ -69,19 +60,8 @@ class InnerProductLayer(Layer):
 
 class SoftMaxLayer(Layer):
     def __init__(self, n_batch, n_in, name="SoftMax Layer"):
-        Layer.__init__(self, name)
-        self.n_batch = n_batch
-        self.n_in = n_in
-        self.btm_data = None
-        self.top_data = None
-        self.btm_diff = None
+        Layer.__init__(self, n_in, n_in, n_batch, name)
         self.scale_data = None
-
-    def __debug_information__(self):
-        print "name:"
-        print self.name
-        print "n_in:"
-        print self.n_in
 
     def forward(self, btm_data):
         self.btm_data = btm_data
@@ -99,8 +79,7 @@ class SoftMaxLayer(Layer):
 
 class CrossEntropyLossLayer(LossLayer):
     def __init__(self, n_batch, n_class, name="Cross Entropy Loss Layer"):
-        LossLayer.__init__(self, n_batch, n_class)
-        self.name = name
+        LossLayer.__init__(self, n_class, n_class, n_batch, n_class, name)
 
     def forward(self, btm_data, label):
         self.label = label
@@ -120,18 +99,11 @@ class CrossEntropyLossLayer(LossLayer):
 
 class ReLULayer(Layer):
     def __init__(self, n_batch, n_in, name="ReLU Layer"):
-        Layer.__init__(self, name)
-        self.n_batch = n_batch
-        self.n_in = n_in
-        self.btm_data = None
-        self.top_data = None
-        self.btm_diff = None
-        self.top_diff = None
+        Layer.__init__(self, n_in, n_in, n_batch, name)
 
     def forward(self, btm_data):
         self.btm_data = btm_data
         self.top_data = self.btm_data * (self.btm_data > 0)
 
     def backward(self, top_diff):
-        self.top_diff = top_diff
         self.btm_diff = 1. * (self.btm_data > 0) * top_diff
