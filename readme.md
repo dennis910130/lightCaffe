@@ -6,5 +6,16 @@
 * easy to modify and try you ideas on small dataset
 * little dependencies
 
-####It is still under development. Please try the examples to see if you like it or not.
+####It is still under development.
+
+#####beta 1.0
+Layer Support: 
+* pkl data layer
+* relu layer
+* inner product layer
+* soft max layer
+* cross entropy layer
+
+You can try different network architectures without writing a single line of code by writing prototxt as in Caffe.
+Try the examples in ./example folder.
 
