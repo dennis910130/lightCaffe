@@ -28,6 +28,7 @@ class DataLayer:
     def __init__(self, n_batch, name='Data Layer'):
         self.name = name
         self.n_batch = n_batch
+        self.need_update = False
 
     def print_information(self):
         print '----------------------------------------------------------------------------------'

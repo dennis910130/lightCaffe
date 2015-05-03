@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4059f606-1120-4231-b3d4-37aaeb44917d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightCaffe/layer.py" afterPath="$PROJECT_DIR$/lightCaffe/layer.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/logistic_regression.py" afterPath="$PROJECT_DIR$/example/logistic_regression.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/multi_layer_network.py" afterPath="$PROJECT_DIR$/example/multi_layer_network.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightCaffe/net.py" afterPath="$PROJECT_DIR$/lightCaffe/net.py" />
     </list>
     <ignored path="lightCaffe.iws" />
@@ -32,8 +30,8 @@
       <file leaf-file-name="layer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lightCaffe/layer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1390" max-vertical-offset="3300">
-              <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3315">
+              <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
               <folding>
                 <element signature="e#23#41#0" expanded="true" />
               </folding>
@@ -41,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="net.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="net.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lightCaffe/net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42579076" vertical-offset="0" max-vertical-offset="1233">
-              <caret line="35" column="31" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1110">
+              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
               <folding>
                 <element signature="e#22#52#0" expanded="true" />
               </folding>
@@ -113,7 +111,19 @@
         <entry file="file://$PROJECT_DIR$/example/logistic_regression.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1215">
-              <caret line="38" column="49" selection-start-line="38" selection-start-column="49" selection-end-line="38" selection-end-column="49" />
+              <caret line="19" column="35" selection-start-line="0" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+              <folding>
+                <element signature="e#22#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="logistic_regression_net.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/example/logistic_regression_net.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.085158154" vertical-offset="0" max-vertical-offset="1233">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding>
                 <element signature="e#22#33#0" expanded="true" />
               </folding>
@@ -129,16 +139,6 @@
               <folding>
                 <element signature="e#22#36#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.prototxt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proto/test.prototxt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
-              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -163,10 +163,11 @@
         <option value="$PROJECT_DIR$/proto/test.prototxt" />
         <option value="$PROJECT_DIR$/lightCaffe/util.py" />
         <option value="$PROJECT_DIR$/lightCaffe/test.py" />
-        <option value="$PROJECT_DIR$/lightCaffe/layer.py" />
-        <option value="$PROJECT_DIR$/example/logistic_regression.py" />
         <option value="$PROJECT_DIR$/example/multi_layer_network.py" />
+        <option value="$PROJECT_DIR$/example/logistic_regression.py" />
+        <option value="$PROJECT_DIR$/lightCaffe/layer.py" />
         <option value="$PROJECT_DIR$/lightCaffe/net.py" />
+        <option value="$PROJECT_DIR$/example/logistic_regression_net.py" />
       </list>
     </option>
   </component>
@@ -889,26 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lightCaffe/layer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1390" max-vertical-offset="3300">
-          <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
-          <folding>
-            <element signature="e#23#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/logistic_regression.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1215">
-          <caret line="38" column="49" selection-start-line="38" selection-start-column="49" selection-end-line="38" selection-end-column="49" />
-          <folding>
-            <element signature="e#22#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example/multi_layer_network.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1740">
@@ -919,12 +900,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/example/logistic_regression.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1215">
+          <caret line="19" column="35" selection-start-line="0" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightCaffe/layer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3315">
+          <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
+          <folding>
+            <element signature="e#23#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lightCaffe/net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42579076" vertical-offset="0" max-vertical-offset="1233">
-          <caret line="35" column="31" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
             <element signature="e#22#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/logistic_regression_net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.085158154" vertical-offset="0" max-vertical-offset="1233">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#33#0" expanded="true" />
           </folding>
         </state>
       </provider>

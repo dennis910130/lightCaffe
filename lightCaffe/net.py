@@ -8,6 +8,7 @@ class Net:
         self.net_param = parse_net_from_prototxt(param_file)
         self.n_layer = len(self.net_param.layer)
         self.layers = []
+        self.total_loss = None
 
     def print_proto_file(self):
         print self.net_param
@@ -43,10 +44,11 @@ class Net:
             self.layers[i].forward(data_input)
             data_input = self.layers[i].top_data
         self.layers[-1].forward(data_input, label)
+        self.total_loss = self.layers[-1].total_loss
 
     def backward(self):
         self.layers[-1].backward()
-        for i in range(self.n_layer-1, 0, -1):
+        for i in range(self.n_layer-2, 0, -1):
             self.layers[i].backward(self.layers[i+1].btm_diff)
 
     def update(self, learning_rate):
@@ -61,3 +63,7 @@ class Net:
             data_input = self.layers[i].top_data
         self.layers[-1].forward(data_input, label)
         return self.layers[-1].total_loss, self.layers[-1].error()
+
+    def forward_and_backward(self):
+        self.forward()
+        self.backward()
