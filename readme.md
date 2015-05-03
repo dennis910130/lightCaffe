@@ -1,4 +1,4 @@
-###lightCaffe is a light-weight version of Caffe
+###lightCaffe
 ###### a deep learning framework written purely in python
 ####It has the following property:
 * slow
