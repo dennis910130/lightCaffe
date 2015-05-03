@@ -1,12 +1,15 @@
 ###lightCaffe is a light-weight version of Caffe
-
+###### a deep learning framework written purely in python
 ####It has the following property:
 * slow
 * easy to read
 * easy to modify and try you ideas on small dataset
 * little dependencies
 
-####It is still under development.
+####Dependencies:
+* python
+* numpy
+* protobuf
 
 #####beta 1.0 2015-5-3
 Layer Support: 
