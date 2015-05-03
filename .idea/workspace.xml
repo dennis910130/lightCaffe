@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4059f606-1120-4231-b3d4-37aaeb44917d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/proto/test.prototxt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/logistic_regression_net.py" afterPath="$PROJECT_DIR$/example/logistic_regression_net.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightCaffe/net.py" afterPath="$PROJECT_DIR$/lightCaffe/net.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightCaffe/test.py" afterPath="$PROJECT_DIR$/lightCaffe/test.py" />
-    </list>
+    <list default="true" id="4059f606-1120-4231-b3d4-37aaeb44917d" name="Default" comment="" />
     <ignored path="lightCaffe.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -90,8 +85,8 @@
       <file leaf-file-name="logistic_regression_net.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example/logistic_regression_net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38929442" vertical-offset="0" max-vertical-offset="1233">
-              <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.66909975" vertical-offset="0" max-vertical-offset="1233">
+              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding>
                 <element signature="e#22#33#0" expanded="true" />
               </folding>
@@ -915,8 +910,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example/logistic_regression_net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38929442" vertical-offset="0" max-vertical-offset="1233">
-          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.66909975" vertical-offset="0" max-vertical-offset="1233">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding>
             <element signature="e#22#33#0" expanded="true" />
           </folding>
