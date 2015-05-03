@@ -38,7 +38,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mn
         loss_layer.backward()
         soft_max_layer.backward(loss_layer.btm_diff)
         ip_layer.backward(soft_max_layer.btm_diff)
-        ip_layer.update(learning_rate, learning_rate)
+        ip_layer.update(learning_rate)
 
         iteration = (data_layer.epoch_index - 1) * data_layer.n_train_batches + data_layer.batch_index_train
         if (iteration + 1) % print_frequency == 0:

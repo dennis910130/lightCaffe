@@ -149,9 +149,9 @@ class InnerProductLayer(Layer):
         self.b_diff = np.dot(np.ones(self.btm_data.shape[0],), top_diff)
         self.btm_diff = np.dot(top_diff, self.W.T)
 
-    def update(self, alpha_w, alpha_b):
-        self.W = self.W - alpha_w * self.W_diff
-        self.b = self.b - alpha_b * self.b_diff
+    def update(self, learning_rate):
+        self.W = self.W - learning_rate * self.W_diff
+        self.b = self.b - learning_rate * self.b_diff
 
 
 class SoftMaxLayer(Layer):

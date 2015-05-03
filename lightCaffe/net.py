@@ -36,3 +36,28 @@ class Net:
         elif layer_param.type == 'cross_entropy_layer':
             layer = CrossEntropyLossLayer(self.layers[0].n_batch, self.layers[-1].n_out, layer_param=layer_param)
         self.layers.append(layer)
+
+    def forward(self):
+        (data_input, label) = self.layers[0].get_next_batch_train()
+        for i in range(1, self.n_layer-1):
+            self.layers[i].forward(data_input)
+            data_input = self.layers[i].top_data
+        self.layers[-1].forward(data_input, label)
+
+    def backward(self):
+        self.layers[-1].backward()
+        for i in range(self.n_layer-1, 0, -1):
+            self.layers[i].backward(self.layers[i+1].btm_diff)
+
+    def update(self, learning_rate):
+        for i in range(0, self.n_layer):
+            if self.layers[i].need_update:
+                self.layers[i].update(learning_rate)
+
+    def forward_val(self):
+        (data_input, label) = self.layers[0].get_next_batch_val()
+        for i in range(1, self.n_layer-1):
+            self.layers[i].forward(data_input)
+            data_input = self.layers[i].top_data
+        self.layers[-1].forward(data_input, label)
+        return self.layers[-1].total_loss, self.layers[-1].error()
