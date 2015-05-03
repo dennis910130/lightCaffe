@@ -56,7 +56,7 @@ def test_relu_layer():
 
 
 def test_net_init():
-    net = Net('../proto/test.prototxt')
+    net = Net('../example/logistic_regression_net.prototxt')
     net.init()
 
 

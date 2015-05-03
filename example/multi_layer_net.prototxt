@@ -1,0 +1,35 @@
+name: "logistic regression"
+layer {
+    name: "data"
+    type: "pkl_data_layer"
+    pkl_data_param {
+        source: "../data/mnist.pkl.gz"
+        batch_size: 20
+    }
+}
+layer {
+    name: "ip1"
+    type: "inner_product_layer"
+    inner_product_param {
+        num_output: 500
+    }
+}
+layer {
+    name: "relu1"
+    type: "relu_layer"
+}
+layer {
+    name: "ip2"
+    type: "inner_product_layer"
+    inner_product_param {
+        num_output: 10
+    }
+}
+layer {
+    name: "softmax"
+    type: "soft_max_layer"
+}
+layer {
+    name: "cross entropy"
+    type: "cross_entropy_layer"
+}

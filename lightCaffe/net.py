@@ -9,6 +9,7 @@ class Net:
         self.n_layer = len(self.net_param.layer)
         self.layers = []
         self.total_loss = None
+        self.n_batch = None
 
     def print_proto_file(self):
         print self.net_param
@@ -27,15 +28,18 @@ class Net:
         if data_layer_param.type == 'pkl_data_layer':
             data_layer = PklDataLayer(layer_param=data_layer_param)
         self.layers.append(data_layer)
+        self.n_batch = data_layer.n_batch
         data_layer.load_data()
 
     def _append(self, layer_param):
         if layer_param.type == 'inner_product_layer':
-            layer = InnerProductLayer(self.layers[0].n_batch, self.layers[-1].n_out, layer_param=layer_param)
+            layer = InnerProductLayer(self.n_batch, self.layers[-1].n_out, layer_param=layer_param)
         elif layer_param.type == 'soft_max_layer':
-            layer = SoftMaxLayer(self.layers[0].n_batch, self.layers[-1].n_out, layer_param=layer_param)
+            layer = SoftMaxLayer(self.n_batch, self.layers[-1].n_out, layer_param=layer_param)
         elif layer_param.type == 'cross_entropy_layer':
-            layer = CrossEntropyLossLayer(self.layers[0].n_batch, self.layers[-1].n_out, layer_param=layer_param)
+            layer = CrossEntropyLossLayer(self.n_batch, self.layers[-1].n_out, layer_param=layer_param)
+        elif layer_param.type == 'relu_layer':
+            layer = ReLULayer(self.n_batch, self.layers[-1].n_out, layer_param=layer_param)
         self.layers.append(layer)
 
     def forward(self):
