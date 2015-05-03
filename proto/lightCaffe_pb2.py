@@ -19,7 +19,7 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='lightCaffe.proto',
   package='lightCaffe',
-  serialized_pb=_b('\n\x10lightCaffe.proto\x12\nlightCaffe\"G\n\x0cNetParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12)\n\x05layer\x18\x02 \x03(\x0b\x32\x1a.lightCaffe.LayerParameter\"\xbd\x01\n\x0eLayerParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12)\n\x07include\x18\x05 \x03(\x0b\x32\x18.lightCaffe.NetStateRule\x12$\n\x05param\x18\x06 \x03(\x0b\x32\x15.lightCaffe.ParamSpec\x12>\n\x13inner_product_param\x18\x66 \x01(\x0b\x32!.lightCaffe.InnerProductParameter\"0\n\x0cNetStateRule\x12 \n\x05phase\x18\x01 \x01(\x0e\x32\x11.lightCaffe.Phase\"D\n\tParamSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\x07lr_mult\x18\x02 \x01(\x02:\x01\x31\x12\x15\n\ndecay_mult\x18\x04 \x01(\x02:\x01\x31\"D\n\x15InnerProductParameter\x12\x12\n\nnum_output\x18\x01 \x01(\r\x12\x17\n\tbias_term\x18\x02 \x01(\x08:\x04true*\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01')
+  serialized_pb=_b('\n\x10lightCaffe.proto\x12\nlightCaffe\"G\n\x0cNetParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12)\n\x05layer\x18\x02 \x03(\x0b\x32\x1a.lightCaffe.LayerParameter\"\xf3\x01\n\x0eLayerParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12)\n\x07include\x18\x05 \x03(\x0b\x32\x18.lightCaffe.NetStateRule\x12$\n\x05param\x18\x06 \x03(\x0b\x32\x15.lightCaffe.ParamSpec\x12\x34\n\x0epkl_data_param\x18\x64 \x01(\x0b\x32\x1c.lightCaffe.PklDataParameter\x12>\n\x13inner_product_param\x18\x66 \x01(\x0b\x32!.lightCaffe.InnerProductParameter\"0\n\x0cNetStateRule\x12 \n\x05phase\x18\x01 \x01(\x0e\x32\x11.lightCaffe.Phase\"D\n\tParamSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\x07lr_mult\x18\x02 \x01(\x02:\x01\x31\x12\x15\n\ndecay_mult\x18\x04 \x01(\x02:\x01\x31\"D\n\x15InnerProductParameter\x12\x12\n\nnum_output\x18\x01 \x01(\r\x12\x17\n\tbias_term\x18\x02 \x01(\x08:\x04true\"6\n\x10PklDataParameter\x12\x0e\n\x06source\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\r*\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -40,8 +40,8 @@ _PHASE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=487,
-  serialized_end=515,
+  serialized_start=597,
+  serialized_end=625,
 )
 _sym_db.RegisterEnumDescriptor(_PHASE)
 
@@ -124,7 +124,14 @@ _LAYERPARAMETER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='inner_product_param', full_name='lightCaffe.LayerParameter.inner_product_param', index=4,
+      name='pkl_data_param', full_name='lightCaffe.LayerParameter.pkl_data_param', index=4,
+      number=100, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='inner_product_param', full_name='lightCaffe.LayerParameter.inner_product_param', index=5,
       number=102, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -142,7 +149,7 @@ _LAYERPARAMETER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=106,
-  serialized_end=295,
+  serialized_end=349,
 )
 
 
@@ -171,8 +178,8 @@ _NETSTATERULE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=297,
-  serialized_end=345,
+  serialized_start=351,
+  serialized_end=399,
 )
 
 
@@ -215,8 +222,8 @@ _PARAMSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=347,
-  serialized_end=415,
+  serialized_start=401,
+  serialized_end=469,
 )
 
 
@@ -252,13 +259,51 @@ _INNERPRODUCTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=417,
-  serialized_end=485,
+  serialized_start=471,
+  serialized_end=539,
+)
+
+
+_PKLDATAPARAMETER = _descriptor.Descriptor(
+  name='PklDataParameter',
+  full_name='lightCaffe.PklDataParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='source', full_name='lightCaffe.PklDataParameter.source', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='batch_size', full_name='lightCaffe.PklDataParameter.batch_size', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=541,
+  serialized_end=595,
 )
 
 _NETPARAMETER.fields_by_name['layer'].message_type = _LAYERPARAMETER
 _LAYERPARAMETER.fields_by_name['include'].message_type = _NETSTATERULE
 _LAYERPARAMETER.fields_by_name['param'].message_type = _PARAMSPEC
+_LAYERPARAMETER.fields_by_name['pkl_data_param'].message_type = _PKLDATAPARAMETER
 _LAYERPARAMETER.fields_by_name['inner_product_param'].message_type = _INNERPRODUCTPARAMETER
 _NETSTATERULE.fields_by_name['phase'].enum_type = _PHASE
 DESCRIPTOR.message_types_by_name['NetParameter'] = _NETPARAMETER
@@ -266,6 +311,7 @@ DESCRIPTOR.message_types_by_name['LayerParameter'] = _LAYERPARAMETER
 DESCRIPTOR.message_types_by_name['NetStateRule'] = _NETSTATERULE
 DESCRIPTOR.message_types_by_name['ParamSpec'] = _PARAMSPEC
 DESCRIPTOR.message_types_by_name['InnerProductParameter'] = _INNERPRODUCTPARAMETER
+DESCRIPTOR.message_types_by_name['PklDataParameter'] = _PKLDATAPARAMETER
 DESCRIPTOR.enum_types_by_name['Phase'] = _PHASE
 
 NetParameter = _reflection.GeneratedProtocolMessageType('NetParameter', (_message.Message,), dict(
@@ -302,6 +348,13 @@ InnerProductParameter = _reflection.GeneratedProtocolMessageType('InnerProductPa
   # @@protoc_insertion_point(class_scope:lightCaffe.InnerProductParameter)
   ))
 _sym_db.RegisterMessage(InnerProductParameter)
+
+PklDataParameter = _reflection.GeneratedProtocolMessageType('PklDataParameter', (_message.Message,), dict(
+  DESCRIPTOR = _PKLDATAPARAMETER,
+  __module__ = 'lightCaffe_pb2'
+  # @@protoc_insertion_point(class_scope:lightCaffe.PklDataParameter)
+  ))
+_sym_db.RegisterMessage(PklDataParameter)
 
 
 # @@protoc_insertion_point(module_scope)

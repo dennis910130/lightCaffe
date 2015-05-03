@@ -37,23 +37,41 @@ class DataLayer:
 
 
 class PklDataLayer(DataLayer):
-    def __init__(self, n_batch, pkl_path, name='Pkl Data Layer'):
-        DataLayer.__init__(self, n_batch, name)
-        self.pkl_path = pkl_path
-        self.train_set_x = None
-        self.train_set_y = None
-        self.test_set_x = None
-        self.test_set_y = None
-        self.val_set_x = None
-        self.val_set_y = None
-        self.n_train_batches = 0
-        self.n_test_batches = 0
-        self.n_val_batches = 0
-        self.batch_index_train = 0
-        self.batch_index_val = 0
-        self.batch_index_test = 0
-        self.n_out = 0
-        self.epoch_index = 1
+    def __init__(self, n_batch=0, pkl_path="", name='Pkl Data Layer', layer_param=None):
+        if layer_param is None:
+            DataLayer.__init__(self, n_batch, name)
+            self.pkl_path = pkl_path
+            self.train_set_x = None
+            self.train_set_y = None
+            self.test_set_x = None
+            self.test_set_y = None
+            self.val_set_x = None
+            self.val_set_y = None
+            self.n_train_batches = 0
+            self.n_test_batches = 0
+            self.n_val_batches = 0
+            self.batch_index_train = 0
+            self.batch_index_val = 0
+            self.batch_index_test = 0
+            self.n_out = 0
+            self.epoch_index = 1
+        else:
+            DataLayer.__init__(self, layer_param.pkl_data_param.batch_size, layer_param.name)
+            self.pkl_path = layer_param.pkl_data_param.source
+            self.train_set_x = None
+            self.train_set_y = None
+            self.test_set_x = None
+            self.test_set_y = None
+            self.val_set_x = None
+            self.val_set_y = None
+            self.n_train_batches = 0
+            self.n_test_batches = 0
+            self.n_val_batches = 0
+            self.batch_index_train = 0
+            self.batch_index_val = 0
+            self.batch_index_test = 0
+            self.n_out = 0
+            self.epoch_index = 1
 
     def load_data(self):
         print '... loading data'
@@ -105,13 +123,21 @@ class LossLayer(Layer):
 
 
 class InnerProductLayer(Layer):
-    def __init__(self, n_batch, n_in, n_out, name="Inner Product Layer"):
-        Layer.__init__(self, n_in, n_out, n_batch, name)
-        self.W = np.random.randn(n_in, n_out) / 1e3
-        self.b = np.random.randn(n_out) / 1e3
-        self.W_diff = None
-        self.b_diff = None
-        self.need_update = True
+    def __init__(self, n_batch, n_in, n_out=0, name="Inner Product Layer", layer_param=None):
+        if layer_param is None:
+            Layer.__init__(self, n_in, n_out, n_batch, name)
+            self.W = np.random.randn(n_in, n_out) / 1e3
+            self.b = np.random.randn(n_out) / 1e3
+            self.W_diff = None
+            self.b_diff = None
+            self.need_update = True
+        else:
+            Layer.__init__(self, n_in, layer_param.inner_product_param.num_output, n_batch, layer_param.name)
+            self.W = np.random.randn(self.n_in, self.n_out) / 1e3
+            self.b = np.random.randn(self.n_out) / 1e3
+            self.W_diff = None
+            self.b_diff = None
+            self.need_update = True
 
     def forward(self, btm_data):
         self.btm_data = btm_data
@@ -129,9 +155,13 @@ class InnerProductLayer(Layer):
 
 
 class SoftMaxLayer(Layer):
-    def __init__(self, n_batch, n_in, name="SoftMax Layer"):
-        Layer.__init__(self, n_in, n_in, n_batch, name)
-        self.scale_data = None
+    def __init__(self, n_batch, n_in, name="SoftMax Layer", layer_param=None):
+        if layer_param is None:
+            Layer.__init__(self, n_in, n_in, n_batch, name)
+            self.scale_data = None
+        else:
+            Layer.__init__(self, n_in, n_in, n_batch, layer_param.name)
+            self.scale_data = None
 
     def forward(self, btm_data):
         self.btm_data = btm_data
@@ -148,8 +178,11 @@ class SoftMaxLayer(Layer):
 
 
 class CrossEntropyLossLayer(LossLayer):
-    def __init__(self, n_batch, n_class, name="Cross Entropy Loss Layer"):
-        LossLayer.__init__(self, n_class, n_class, n_batch, n_class, name)
+    def __init__(self, n_batch, n_class, name="Cross Entropy Loss Layer", layer_param=None):
+        if layer_param is None:
+            LossLayer.__init__(self, n_class, n_class, n_batch, n_class, name)
+        else:
+            LossLayer.__init__(self, n_class, n_class, n_batch, n_class, layer_param.name)
 
     def forward(self, btm_data, label):
         self.label = label
@@ -168,8 +201,11 @@ class CrossEntropyLossLayer(LossLayer):
 
 
 class ReLULayer(Layer):
-    def __init__(self, n_batch, n_in, name="ReLU Layer"):
-        Layer.__init__(self, n_in, n_in, n_batch, name)
+    def __init__(self, n_batch, n_in, name="ReLU Layer", layer_param=None):
+        if layer_param is None:
+            Layer.__init__(self, n_in, n_in, n_batch, name)
+        else:
+            Layer.__init__(self, n_in, n_in, n_batch, layer_param.name)
 
     def forward(self, btm_data):
         self.btm_data = btm_data

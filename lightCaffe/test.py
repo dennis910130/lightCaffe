@@ -1,6 +1,6 @@
 __author__ = 'sichen'
 from lightCaffe.layer import *
-
+from lightCaffe.net import *
 
 def test_layer():
     layer1 = Layer()
@@ -42,6 +42,7 @@ def test_cross_entropy_layer():
     print loss_layer.btm_diff
     print loss_layer.error()
 
+
 def test_relu_layer():
     layer = ReLULayer(5, 10)
     btm_data = np.random.randn(5, 10)
@@ -54,9 +55,15 @@ def test_relu_layer():
     print layer.btm_diff
 
 
+def test_net_init():
+    net = Net('../proto/test.prototxt')
+    net.init()
+
+
 if __name__ == "__main__":
     #test_layer()
     #test_inner_product_layer()
     #test_soft_max_layer()
     #test_cross_entropy_layer()
-    test_relu_layer()
+    #test_relu_layer()
+    test_net_init()

@@ -13,6 +13,7 @@ message LayerParameter {
     repeated NetStateRule include = 5;
     repeated ParamSpec param = 6;
 
+    optional PklDataParameter pkl_data_param = 100;
     optional InnerProductParameter inner_product_param = 102;
 }
 
@@ -30,6 +31,11 @@ message ParamSpec {
 message InnerProductParameter {
     optional uint32 num_output = 1;
     optional bool bias_term = 2 [default = true];
+}
+
+message PklDataParameter {
+    optional string source = 1;
+    optional uint32 batch_size = 2;
 }
 
 enum Phase {
