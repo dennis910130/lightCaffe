@@ -24,6 +24,35 @@ class Layer:
         print '----------------------------------------------------------------------------------'
 
 
+class ImageLayer:
+    def __init__(self, n_batch, n_channel, height, width, name='Image Layer'):
+        self.n_batch = n_batch
+        self.n_channel = n_channel
+        self.height = height
+        self.width = width
+        self.name = name
+        self.btm_data
+        self.top_data
+        self.btm_diff
+        self.need_update = False
+
+    def print_information(self):
+        print '----------------------------------------------------------------------------------'
+        print "%25s: n_batch %4i, n_channel %4i, height %4i, width %4i" \
+              % (self.name, self.n_batch, self.n_channel, self.height, self.width)
+        print '----------------------------------------------------------------------------------'
+
+
+class ConvLayer(ImageLayer):
+    def __init__(self, n_batch, n_channel, height, width, padding, filter_size, out_channel, name='Conv Layer'):
+        ImageLayer.__init__(self, n_batch, n_channel, height, width)
+        self.padding = padding
+        self.out_channel = out_channel
+        self.filter_size = filter_size
+        self.W = np.random.randn(out_channel, filter_size, filter_size)
+        self.b = np.random.randn(out_channel)
+
+
 class DataLayer:
     def __init__(self, n_batch, name='Data Layer'):
         self.name = name
