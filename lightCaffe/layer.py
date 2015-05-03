@@ -189,11 +189,11 @@ class CrossEntropyLossLayer(LossLayer):
         self.label = label
         self.btm_data = btm_data
         self.loss = - np.log(btm_data)[np.arange(self.n_batch), self.label]
-        self.total_loss = np.sum(self.loss)
+        self.total_loss = np.sum(self.loss) / self.n_batch
 
     def backward(self):
         mask = np.zeros_like(self.btm_data)
-        mask[np.arange(self.n_batch), self.label] = 1
+        mask[np.arange(self.n_batch), self.label] = 1.0 / self.n_batch
         self.btm_diff = - 1 / self.btm_data * mask
 
     def error(self):

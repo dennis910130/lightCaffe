@@ -1,0 +1,6 @@
+net: "logistic_regression_net.prototxt"
+test_iter: 16
+test_interval: 100
+base_lr: 0.13
+display: 20
+max_iter: 1000

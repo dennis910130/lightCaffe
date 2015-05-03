@@ -68,6 +68,14 @@ class Net:
         self.layers[-1].forward(data_input, label)
         return self.layers[-1].total_loss, self.layers[-1].error()
 
+    def forward_test(self):
+        (data_input, label) = self.layers[0].get_next_batch_test()
+        for i in range(1, self.n_layer-1):
+            self.layers[i].forward(data_input)
+            data_input = self.layers[i].top_data
+        self.layers[-1].forward(data_input, label)
+        return self.layers[-1].total_loss, self.layers[-1].error()
+
     def forward_and_backward(self):
         self.forward()
         self.backward()

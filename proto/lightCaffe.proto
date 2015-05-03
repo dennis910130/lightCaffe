@@ -42,3 +42,12 @@ enum Phase {
     TRAIN = 0;
     TEST = 1;
 }
+
+message SolverParameter {
+    optional string net = 1;
+    optional uint32 test_iter = 2;
+    optional uint32 test_interval = 3;
+    optional float base_lr = 4;
+    optional uint32 display = 5;
+    optional uint32 max_iter = 6;
+}

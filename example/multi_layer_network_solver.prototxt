@@ -1,0 +1,6 @@
+net: "multi_layer_network_net.prototxt"
+test_iter: 320
+test_interval: 1000
+base_lr: 0.01
+display: 200
+max_iter: 10000

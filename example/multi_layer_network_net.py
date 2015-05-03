@@ -4,13 +4,12 @@ import time
 from lightCaffe.net import *
 
 
-def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=20):
+def sgd_optimization_mnist(learning_rate=0.01, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=20):
 
-    learning_rate /= batch_size
     train_iteration = 1000
     val_iteration = 16*20
 
-    net = Net('multi_layer_net.prototxt')
+    net = Net('multi_layer_network_net.prototxt')
     net.init()
 
     print '... training the model'

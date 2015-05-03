@@ -19,7 +19,6 @@ def load_data(data_set):
 
 def sgd_optimization_mnist(learning_rate=0.01, n_epochs=1000, data_set="../data/mnist.pkl.gz", batch_size=20, n_hidden=500):
 
-    learning_rate /= batch_size
     data_sets = load_data(data_set)
     train_set_x, train_set_y = data_sets[0]
     valid_set_x, valid_set_y = data_sets[1]

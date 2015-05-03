@@ -6,7 +6,6 @@ from lightCaffe.net import *
 
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=600):
 
-    learning_rate /= batch_size
     train_iteration = 1000
     val_iteration = 16
 

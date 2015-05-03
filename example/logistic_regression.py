@@ -6,8 +6,6 @@ from lightCaffe.layer import *
 
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=600):
 
-    learning_rate /= batch_size
-
     print '... initializing network'
 
     data_layer = PklDataLayer(batch_size, data_set)
