@@ -31,9 +31,9 @@ class ImageLayer:
         self.height = height
         self.width = width
         self.name = name
-        self.btm_data
-        self.top_data
-        self.btm_diff
+        self.btm_data = None
+        self.top_data = None
+        self.btm_diff = None
         self.need_update = False
 
     def print_information(self):
