@@ -146,7 +146,7 @@ def check_conv_layer():
         delta_loss = np.sum(delta_top_data * top_diff)
         numerical_b_diff[i] = delta_loss / eps
         layer.b[i] -= eps
-
+    print numerical_btm_diff / btm_diff
     print "CONV LAYER:"
     if is_near_enough(numerical_btm_diff, btm_diff) \
        and is_near_enough(numerical_W_diff, W_diff) \

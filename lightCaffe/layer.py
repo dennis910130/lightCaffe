@@ -71,7 +71,9 @@ class ConvLayer(ImageLayer):
                                                               order='F'), 3, 1)
 
     def backward(self, top_diff):
-        reshaped_top_diff = im2col_batch(top_diff, 1, 1)
+        print np.rollaxis(top_diff, 1, 4).shape
+        print self.reshaped_out.shape
+        reshaped_top_diff = np.rollaxis(top_diff, 1, 4).reshape(self.reshaped_out.shape, order='F')
         reshaped_btm_diff = np.dot(reshaped_top_diff, self.reshaped_W)
         padded_btm_diff = col2im_batch(reshaped_btm_diff, self.filter_size, self.stride, self.height+self.padding*2,
                                        self.n_batch, self.n_channel)
