@@ -53,6 +53,8 @@ class ConvLayer(ImageLayer):
         self.filter_size = filter_size
         self.W = np.random.randn(out_channel, n_channel, filter_size, filter_size)
         self.b = np.random.randn(out_channel)
+        self.W_diff = None
+        self.b_diff = None
         self.reshaped_W = None
         self.reshaped_batch_data = None
         self.out_size = (height + padding * 2 - filter_size) / stride + 1

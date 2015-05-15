@@ -105,6 +105,11 @@ def test_conv_layer():
     print layer.top_data[1, 1, 3, 1]
 
 
+def test_col2im_batch():
+    im = np.random.randn(2, 3, 10, 10)
+    re_im = col2im_batch(im2col_batch(im, 3, 1), 3, 1, 10, 2, 3)
+    print im - re_im
+
 if __name__ == "__main__":
     #test_layer()
     #test_inner_product_layer()
@@ -114,5 +119,6 @@ if __name__ == "__main__":
     #test_net_init()
     #test_im2col()
     #test_convolve3d()
-    test_conv_layer()
+    #test_conv_layer()
     #test_im2col_batch()
+    test_col2im_batch()

@@ -102,6 +102,36 @@ def im2col_batch(im_batch, filter_size, stride):
     return out
 
 
+def col2im_batch(input, filter_size, stride, image_size, batch_size, channel):
+    """This function ...
+
+    Parameters
+    ----------
+    input : 2-D ndarray
+        ...
+    filter_size : int
+        ...
+    stride: int
+        ...
+    image_size: int
+        ...
+
+    Returns
+    -------
+    patches : 4-D ndarray
+        ncab
+
+    """
+    out_size = (image_size - filter_size) / stride + 1
+    out = np.empty((batch_size, channel, image_size, image_size), dtype=input.dtype)
+    for i in xrange(out_size):
+        for j in xrange(out_size):
+            for k in xrange(batch_size):
+                out[k, :, j*stride:j*stride+filter_size, i*stride:i*stride+filter_size] = \
+                    input[i*out_size*batch_size+j*batch_size+k, :].reshape(channel, filter_size, filter_size)
+    return out
+
+
 def convolve3d(im, filter, stride):
     """This function ...
 
