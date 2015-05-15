@@ -45,8 +45,8 @@ class ImageLayer:
 
 
 class ConvLayer(ImageLayer):
-    def __init__(self, n_batch, n_channel, height, width, padding, filter_size, out_channel, stride=1, name='Conv Layer'):
-        ImageLayer.__init__(self, n_batch, n_channel, height, width)
+    def __init__(self, n_batch, n_channel, image_size, padding, filter_size, out_channel, stride=1, name='Conv Layer'):
+        ImageLayer.__init__(self, n_batch, n_channel, image_size, image_size)
         self.padding = padding
         self.stride = stride
         self.out_channel = out_channel
@@ -57,7 +57,7 @@ class ConvLayer(ImageLayer):
         self.b_diff = None
         self.reshaped_W = None
         self.reshaped_batch_data = None
-        self.out_size = (height + padding * 2 - filter_size) / stride + 1
+        self.out_size = (image_size + padding * 2 - filter_size) / stride + 1
         self.top_data = None
         self.reshaped_out = None
 
@@ -69,6 +69,16 @@ class ConvLayer(ImageLayer):
         self.reshaped_out += self.b.reshape((1, -1))
         self.top_data = np.rollaxis(self.reshaped_out.reshape((self.n_batch, self.out_size, self.out_size, -1),
                                                               order='F'), 3, 1)
+
+    def backward(self, top_diff):
+        reshaped_top_diff = im2col_batch(top_diff, 1, 1)
+        reshaped_btm_diff = np.dot(reshaped_top_diff, self.reshaped_W)
+        padded_btm_diff = col2im_batch(reshaped_btm_diff, self.filter_size, self.stride, self.height+self.padding*2,
+                                       self.n_batch, self.n_channel)
+        self.btm_diff = padded_btm_diff[:, :, self.padding:-self.padding, self.padding:-self.padding]
+        reshaped_W_diff = np.dot(reshaped_top_diff.T, self.reshaped_batch_data)
+        self.W_diff = reshaped_W_diff.reshape(self.W.shape)
+        self.b_diff = np.dot(reshaped_top_diff.T, np.ones(reshaped_top_diff.shape[0],))
 
 
 class DataLayer:

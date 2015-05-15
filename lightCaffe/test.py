@@ -92,8 +92,8 @@ def test_convolve3d():
 
 
 def test_conv_layer():
-    im = np.random.randn(2, 3, 10, 10)
-    layer = ConvLayer(2, 3, 10, 10, 0, 2, 2)
+    im = np.random.randn(10, 4, 8, 8)
+    layer = ConvLayer(10, 4, 8, 1, 3, 5)
     layer.forward(im)
     print layer.top_data.shape
     print im[0, :, 0:2, 1:3]
@@ -101,9 +101,11 @@ def test_conv_layer():
     print layer.reshaped_W[0]
     print layer.W[0, :]
     print layer.reshaped_out[2]
-    print np.sum(im[1, :, 3:5, 1:3] * layer.W[1, :]) + layer.b[1]
-    print layer.top_data[1, 1, 3, 1]
 
+    top_diff = np.random.randn(10, 5, 8, 8)
+    layer.backward(top_diff)
+    print layer.W_diff
+    print layer.b_diff
 
 def test_col2im_batch():
     im = np.random.randn(2, 3, 10, 10)
@@ -119,6 +121,6 @@ if __name__ == "__main__":
     #test_net_init()
     #test_im2col()
     #test_convolve3d()
-    #test_conv_layer()
+    test_conv_layer()
     #test_im2col_batch()
-    test_col2im_batch()
+    #test_col2im_batch()
