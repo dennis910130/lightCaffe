@@ -2,6 +2,7 @@ __author__ = 'sichen'
 
 import numpy as np
 import scipy as sp
+from math_util import *
 import gzip
 import cPickle
 
@@ -44,13 +45,28 @@ class ImageLayer:
 
 
 class ConvLayer(ImageLayer):
-    def __init__(self, n_batch, n_channel, height, width, padding, filter_size, out_channel, name='Conv Layer'):
+    def __init__(self, n_batch, n_channel, height, width, padding, filter_size, out_channel, stride=1, name='Conv Layer'):
         ImageLayer.__init__(self, n_batch, n_channel, height, width)
         self.padding = padding
+        self.stride = stride
         self.out_channel = out_channel
         self.filter_size = filter_size
-        self.W = np.random.randn(out_channel, filter_size, filter_size)
+        self.W = np.random.randn(out_channel, n_channel, filter_size, filter_size)
         self.b = np.random.randn(out_channel)
+        self.reshaped_W = None
+        self.reshaped_batch_data = None
+        self.out_size = (height + padding * 2 - filter_size) / stride + 1
+        self.top_data = None
+        self.reshaped_out = None
+
+    def forward(self, btm_data):
+        padded_btm_data = im_pad_batch(btm_data, self.padding)
+        self.reshaped_batch_data = im2col_batch(padded_btm_data, self.filter_size, self.stride)
+        self.reshaped_W = self.W.reshape((self.W.shape[0], -1))
+        self.reshaped_out = np.dot(self.reshaped_batch_data, self.reshaped_W.T)
+        self.reshaped_out += self.b.reshape((1, -1))
+        self.top_data = np.rollaxis(self.reshaped_out.reshape((self.n_batch, self.out_size, self.out_size, -1),
+                                                              order='F'), 3, 1)
 
 
 class DataLayer:

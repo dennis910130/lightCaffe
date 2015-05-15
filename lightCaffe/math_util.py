@@ -23,6 +23,27 @@ def im_pad(im, padding_size):
                       'constant', constant_values=0)
 
 
+def im_pad_batch(im_batch, padding_size):
+    """This function add padding_size zeros to the border of a image.
+
+    Parameters
+    ----------
+    im_batch : 4-D ndarray
+        ncab
+    padding_size : int
+        size of padding
+
+    Returns
+    -------
+    padded_image : 4-D ndarray
+        The padded version of image batch
+
+    """
+
+    return np.lib.pad(im_batch, ((0, 0), (0, 0), (padding_size, padding_size), (padding_size, padding_size)),
+                      'constant', constant_values=0)
+
+
 def im2col(im, filter_size, stride):
     """This function ...
 
@@ -47,6 +68,37 @@ def im2col(im, filter_size, stride):
     for i in xrange(out_size):
         for j in xrange(out_size):
             out[i*out_size+j, :] = im[:, i*stride:i*stride+filter_size, j*stride:j*stride+filter_size].ravel()
+    return out
+
+
+def im2col_batch(im_batch, filter_size, stride):
+    """This function ...
+
+    Parameters
+    ----------
+    im_batch : 4-D ndarray
+        ncab
+    filter_size : int
+        ...
+    stride: int
+        ...
+
+    Returns
+    -------
+    patches : 2-D ndarray
+        ...
+
+    """
+
+    out_size = (im_batch.shape[2] - filter_size) / stride + 1
+    out = np.empty((im_batch.shape[0] * out_size * out_size, im_batch.shape[1] * filter_size * filter_size),
+                   dtype=im_batch.dtype)
+
+    for i in xrange(out_size):
+        for j in xrange(out_size):
+            for k in xrange(im_batch.shape[0]):
+                out[i*out_size*im_batch.shape[0]+j*im_batch.shape[0]+k, :] = \
+                    im_batch[k, :, j*stride:j*stride+filter_size, i*stride:i*stride+filter_size].ravel()
     return out
 
 

@@ -70,6 +70,15 @@ def test_im2col():
     print patches[0, :]
 
 
+def test_im2col_batch():
+    im = np.random.randn(2, 3, 10, 10)
+    patches = im2col_batch(im, 3, 1)
+    print patches.shape
+    print patches
+    print im[0, :, 0:3, 1:4]
+    print patches[2, :]
+
+
 def test_convolve3d():
     im = np.random.randn(3, 10, 10)
     filter = np.random.randn(2, 3, 2, 2)
@@ -81,6 +90,21 @@ def test_convolve3d():
     print np.sum(im[:, 8:10, 1:3] * filter[0, :])
     print im_out[0, -1, 1]
 
+
+def test_conv_layer():
+    im = np.random.randn(2, 3, 10, 10)
+    layer = ConvLayer(2, 3, 10, 10, 0, 2, 2)
+    layer.forward(im)
+    print layer.top_data.shape
+    print im[0, :, 0:2, 1:3]
+    print layer.reshaped_batch_data[2]
+    print layer.reshaped_W[0]
+    print layer.W[0, :]
+    print layer.reshaped_out[2]
+    print np.sum(im[1, :, 3:5, 1:3] * layer.W[1, :]) + layer.b[1]
+    print layer.top_data[1, 1, 3, 1]
+
+
 if __name__ == "__main__":
     #test_layer()
     #test_inner_product_layer()
@@ -89,4 +113,6 @@ if __name__ == "__main__":
     #test_relu_layer()
     #test_net_init()
     #test_im2col()
-    test_convolve3d()
+    #test_convolve3d()
+    test_conv_layer()
+    #test_im2col_batch()
