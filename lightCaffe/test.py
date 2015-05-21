@@ -107,10 +107,25 @@ def test_conv_layer():
     top_diff = np.random.randn(10, 5, 6, 6)
     layer.backward(top_diff)
 
+
 def test_col2im_batch():
     im = np.random.randn(2, 3, 10, 10)
     re_im = col2im_batch(im2col_batch(im, 3, 1), 3, 1, 10, 2, 3)
     print im - re_im
+
+
+def test_pooling_layer():
+    im = np.random.randn(2, 3, 8, 8)
+    layer = PoolingLayer(2, 3, 8, 1, 3, 1, pooling_type='Max')
+    layer.forward(im)
+    print im
+    print layer.top_data.shape
+    print layer.top_data
+    top_diff = np.random.randn(2, 3, 8, 8)
+    layer.backward(top_diff)
+    print layer.btm_diff.shape
+    print layer.btm_diff
+
 
 if __name__ == "__main__":
     #test_layer()
@@ -121,6 +136,7 @@ if __name__ == "__main__":
     #test_net_init()
     #test_im2col()
     #test_convolve3d()
-    test_conv_layer()
+    #test_conv_layer()
     #test_im2col_batch()
     #test_col2im_batch()
+    test_pooling_layer()

@@ -155,6 +155,36 @@ def check_conv_layer():
         print "failed!"
 
 
+def check_pooling_layer():
+    layer = PoolingLayer(2, 3, 4, 1, 2, 1, pooling_type='Max')
+    btm_data = np.random.randn(2, 3, 4, 4)
+    layer.forward(btm_data)
+    top_diff = np.random.randn(2, 3, 5, 5)
+    layer.backward(top_diff)
+    top_data = layer.top_data.copy()
+    eps = 1e-5
+    btm_diff = layer.btm_diff
+
+    numerical_btm_diff = np.zeros((2, 3, 4, 4))
+
+    for n in range(0, 2):
+        for c in range(0, 3):
+            for a in range(0, 4):
+                for b in range(0, 4):
+                    btm_data[n, c, a, b] += eps
+                    layer.forward(btm_data)
+                    delta_top_data = layer.top_data - top_data
+                    delta_loss = np.sum(delta_top_data * top_diff)
+                    numerical_btm_diff[n, c, a, b] = delta_loss / eps
+                    btm_data[n, c, a, b] -= eps
+
+    print "POOLING LAYER:"
+    if is_near_enough(numerical_btm_diff, btm_diff):
+        print "passed!"
+    else:
+        print "failed!"
+
+
 def check_relu_layer():
     layer = ReLULayer(3, 5)
     btm_data = np.random.randn(3, 5)
@@ -185,3 +215,4 @@ if __name__ == '__main__':
     check_inner_product_layer()
     check_relu_layer()
     check_conv_layer()
+    check_pooling_layer()

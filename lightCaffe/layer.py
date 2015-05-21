@@ -44,6 +44,60 @@ class ImageLayer:
         print '----------------------------------------------------------------------------------'
 
 
+class PoolingLayer(ImageLayer):
+    def __init__(self, n_batch, n_channel, image_size, padding, filter_size, stride, pooling_type='Max', name='Pooling Layer'):
+        ImageLayer.__init__(self, n_batch, n_channel, image_size, image_size)
+        self.name = name
+        self.padding = padding
+        self.stride = stride
+        self.filter_size = filter_size
+        self.out_size = (image_size + padding * 2 - filter_size) / stride + 1
+        self.top_data = np.zeros((n_batch, n_channel, self.out_size, self.out_size))
+        self.name = name
+        self.pooling_type = pooling_type
+        self.padded_btm_data = None
+
+    def forward(self, btm_data):
+        self.padded_btm_data = im_pad_batch(btm_data, self.padding)
+        if self.pooling_type is 'Max':
+            for n in xrange(self.n_batch):
+                for c in xrange(self.n_channel):
+                    for a in xrange(self.out_size):
+                        for b in xrange(self.out_size):
+                            self.top_data[n, c, a, b] = np.amax(self.padded_btm_data[n, c,
+                                                                a*self.stride:a*self.stride+self.filter_size,
+                                                                b*self.stride:b*self.stride+self.filter_size])
+        elif self.pooling_type is 'Ave':
+            for n in xrange(self.n_batch):
+                for c in xrange(self.n_channel):
+                    for a in xrange(self.out_size):
+                        for b in xrange(self.out_size):
+                            self.top_data[n, c, a, b] = np.mean(self.padded_btm_data[n, c,
+                                                                a*self.stride:a*self.stride+self.filter_size,
+                                                                b*self.stride:b*self.stride+self.filter_size])
+        else:
+            raise ValueError('Currently we only support Max and Ave pooling.')
+
+    def backward(self, top_diff):
+        padded_btm_diff = np.zeros_like(self.padded_btm_data)
+        if self.pooling_type is 'Max':
+            for n in xrange(self.n_batch):
+                for c in xrange(self.n_channel):
+                    for a in xrange(self.out_size):
+                        for b in xrange(self.out_size):
+                            padded_btm_diff[n, c,
+                            a*self.stride:a*self.stride+self.filter_size,
+                            b*self.stride:b*self.stride+self.filter_size] += \
+                            top_diff[n, c, a, b] * (self.padded_btm_data[n, c,
+                                                    a*self.stride:a*self.stride+self.filter_size,
+                                                    b*self.stride:b*self.stride+self.filter_size] ==
+                                                    self.top_data[n, c, a, b])
+        if self.padding is 0:
+            self.btm_diff = padded_btm_diff
+        else:
+            self.btm_diff = padded_btm_diff[:, :, self.padding:-self.padding, self.padding:-self.padding]
+
+
 class ConvLayer(ImageLayer):
     def __init__(self, n_batch, n_channel, image_size, padding, filter_size, out_channel, stride=1, name='Conv Layer'):
         ImageLayer.__init__(self, n_batch, n_channel, image_size, image_size)
@@ -60,6 +114,7 @@ class ConvLayer(ImageLayer):
         self.out_size = (image_size + padding * 2 - filter_size) / stride + 1
         self.top_data = None
         self.reshaped_out = None
+        self.name = name
 
     def forward(self, btm_data):
         padded_btm_data = im_pad_batch(btm_data, self.padding)
