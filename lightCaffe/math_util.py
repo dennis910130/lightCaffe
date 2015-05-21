@@ -123,11 +123,11 @@ def col2im_batch(input, filter_size, stride, image_size, batch_size, channel):
 
     """
     out_size = (image_size - filter_size) / stride + 1
-    out = np.empty((batch_size, channel, image_size, image_size), dtype=input.dtype)
+    out = np.zeros((batch_size, channel, image_size, image_size), dtype=input.dtype)
     for i in xrange(out_size):
         for j in xrange(out_size):
             for k in xrange(batch_size):
-                out[k, :, j*stride:j*stride+filter_size, i*stride:i*stride+filter_size] = \
+                out[k, :, j*stride:j*stride+filter_size, i*stride:i*stride+filter_size] += \
                     input[i*out_size*batch_size+j*batch_size+k, :].reshape(channel, filter_size, filter_size)
     return out
 

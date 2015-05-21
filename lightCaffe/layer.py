@@ -71,13 +71,14 @@ class ConvLayer(ImageLayer):
                                                               order='F'), 3, 1)
 
     def backward(self, top_diff):
-        print np.rollaxis(top_diff, 1, 4).shape
-        print self.reshaped_out.shape
         reshaped_top_diff = np.rollaxis(top_diff, 1, 4).reshape(self.reshaped_out.shape, order='F')
-        reshaped_btm_diff = np.dot(reshaped_top_diff, self.reshaped_W)
-        padded_btm_diff = col2im_batch(reshaped_btm_diff, self.filter_size, self.stride, self.height+self.padding*2,
+        self.reshaped_btm_diff = np.dot(reshaped_top_diff, self.reshaped_W)
+        padded_btm_diff = col2im_batch(self.reshaped_btm_diff, self.filter_size, self.stride, self.height+self.padding*2,
                                        self.n_batch, self.n_channel)
-        self.btm_diff = padded_btm_diff[:, :, self.padding:-self.padding, self.padding:-self.padding]
+        if self.padding is 0:
+            self.btm_diff = padded_btm_diff
+        else:
+            self.btm_diff = padded_btm_diff[:, :, self.padding:-self.padding, self.padding:-self.padding]
         reshaped_W_diff = np.dot(reshaped_top_diff.T, self.reshaped_batch_data)
         self.W_diff = reshaped_W_diff.reshape(self.W.shape)
         self.b_diff = np.dot(reshaped_top_diff.T, np.ones(reshaped_top_diff.shape[0],))

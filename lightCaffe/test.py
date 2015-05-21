@@ -92,20 +92,20 @@ def test_convolve3d():
 
 
 def test_conv_layer():
+    #n_batch, n_channel, image_size, padding, filter_size, out_channel, stride=1, name='Conv Layer'
     im = np.random.randn(10, 4, 8, 8)
-    layer = ConvLayer(10, 4, 8, 1, 3, 5)
+    layer = ConvLayer(10, 4, 8, 0, 3, 5)
     layer.forward(im)
     print layer.top_data.shape
-    print im[0, :, 0:2, 1:3]
-    print layer.reshaped_batch_data[2]
-    print layer.reshaped_W[0]
-    print layer.W[0, :]
-    print layer.reshaped_out[2]
-
-    top_diff = np.random.randn(10, 5, 8, 8)
+    print im[0, :, 1:4, 0:3]
+    print layer.reshaped_batch_data[10]
+    print layer.W[4,:]
+    print np.sum(im[4,:,1:4,5:8] * layer.W[2,:])+layer.b[2]
+    print layer.top_data[4,2,1,5]
+    reshaped_top_data = np.rollaxis(layer.top_data, 1, 4).reshape(layer.reshaped_out.shape, order='F')
+    print reshaped_top_data - layer.reshaped_out
+    top_diff = np.random.randn(10, 5, 6, 6)
     layer.backward(top_diff)
-    print layer.W_diff
-    print layer.b_diff
 
 def test_col2im_batch():
     im = np.random.randn(2, 3, 10, 10)
