@@ -25,34 +25,38 @@ class Layer:
         print '----------------------------------------------------------------------------------'
 
 
-class ImageLayer:
-    def __init__(self, n_batch, n_channel, height, width, name='Image Layer'):
+class ImageLayer(Layer):
+    def __init__(self,  n_batch, n_in, out_channel, padding, stride, filter_size, name='Image Layer'):
+        #n_in is a tuple with three entries
+        self.n_in = n_in
         self.n_batch = n_batch
-        self.n_channel = n_channel
-        self.height = height
-        self.width = width
-        self.name = name
+        self.n_channel = n_in[0]
+        self.height = n_in[1]
+        self.width = n_in[2]
+        self.out_channel = out_channel
+        self.padding = padding
+        self.stride = stride
+        self.filter_size = filter_size
+        self.n_out = (out_channel, (n_in[1]+padding*2-filter_size)/stride+1, (n_in[2]+padding*2-filter_size)/stride+1)
         self.btm_data = None
         self.top_data = None
         self.btm_diff = None
         self.need_update = False
+        self.name = name
 
     def print_information(self):
         print '----------------------------------------------------------------------------------'
-        print "%25s: n_batch %4i, n_channel %4i, height %4i, width %4i" \
-              % (self.name, self.n_batch, self.n_channel, self.height, self.width)
+        print "%25s: n_batch %4i, n_channel %4i, height %4i, width %4i, out_channel %4i, out_height %4i, out_width %4i" \
+              % (self.name, self.n_batch, self.n_channel, self.height, self.width,
+                 self.n_out[0], self.n_out[1], self.n_out[2])
         print '----------------------------------------------------------------------------------'
 
 
 class PoolingLayer(ImageLayer):
-    def __init__(self, n_batch, n_channel, image_size, padding, filter_size, stride, pooling_type='Max', name='Pooling Layer'):
-        ImageLayer.__init__(self, n_batch, n_channel, image_size, image_size)
-        self.name = name
-        self.padding = padding
-        self.stride = stride
-        self.filter_size = filter_size
-        self.out_size = (image_size + padding * 2 - filter_size) / stride + 1
-        self.top_data = np.zeros((n_batch, n_channel, self.out_size, self.out_size))
+    def __init__(self, n_batch, n_in, padding, filter_size, stride, pooling_type='Max', name='Pooling Layer'):
+        ImageLayer.__init__(self, n_batch, n_in, n_in[0], padding, stride, filter_size, name)
+        self.out_size = self.n_out[1]
+        self.top_data = np.zeros((n_batch, self.n_channel, self.out_size, self.out_size))
         self.name = name
         self.pooling_type = pooling_type
         self.padded_btm_data = None
@@ -99,39 +103,33 @@ class PoolingLayer(ImageLayer):
 
 
 class ConvLayer(ImageLayer):
-    def __init__(self, n_batch, n_channel, image_size, padding=0, filter_size=0, out_channel=0, stride=1, sigma=1, name='Conv Layer', layer_param=None):
+    def __init__(self, n_batch, n_in, padding=0, filter_size=0, out_channel=0, stride=1, sigma=1, name='Conv Layer', layer_param=None):
         if layer_param is None:
-            ImageLayer.__init__(self, n_batch, n_channel, image_size, image_size)
-            self.padding = padding
-            self.stride = stride
-            self.out_channel = out_channel
-            self.filter_size = filter_size
-            self.W = np.random.randn(out_channel, n_channel, filter_size, filter_size) * sigma
+            ImageLayer.__init__(self, n_batch, n_in, out_channel, padding, stride, filter_size, name)
+            self.W = np.random.randn(out_channel, self.n_channel, filter_size, filter_size) * sigma
             self.b = np.random.randn(out_channel) * sigma
             self.W_diff = None
             self.b_diff = None
             self.reshaped_W = None
             self.reshaped_batch_data = None
-            self.out_size = (image_size + padding * 2 - filter_size) / stride + 1
+            self.out_size = self.n_out[1]
             self.top_data = None
             self.reshaped_out = None
-            self.name = name
+            self.need_update = True
         else:
-            ImageLayer.__init__(self, n_batch, n_channel, image_size, image_size)
-            self.padding = layer_param.conv_param.padding
-            self.stride = layer_param.conv_param.stride
-            self.out_channel = layer_param.conv_param.out_channel
-            self.filter_size = layer_param.conv_param.filter_size
-            self.W = np.random.randn(out_channel, n_channel, filter_size, filter_size) * layer_param.conv_param.sigma
+            ImageLayer.__init__(self, n_batch, n_in, layer_param.conv_param.out_channel, layer_param.conv_param.padding,
+                                layer_param.conv_param.stride, layer_param.conv_param.filter_size, layer_param.name)
+            self.W = np.random.randn(out_channel, self.n_channel, filter_size, filter_size) * \
+                     layer_param.conv_param.sigma
             self.b = np.random.randn(out_channel) * layer_param.conv_param.sigma
             self.W_diff = None
             self.b_diff = None
             self.reshaped_W = None
             self.reshaped_batch_data = None
-            self.out_size = (image_size + self.padding * 2 - self.filter_size) / self.stride + 1
+            self.out_size = self.n_out[1]
             self.top_data = None
             self.reshaped_out = None
-            self.name = layer_param.name
+            self.need_update = True
 
     def forward(self, btm_data):
         padded_btm_data = im_pad_batch(btm_data, self.padding)

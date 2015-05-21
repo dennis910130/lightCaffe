@@ -94,7 +94,7 @@ def test_convolve3d():
 def test_conv_layer():
     #n_batch, n_channel, image_size, padding, filter_size, out_channel, stride=1, name='Conv Layer'
     im = np.random.randn(10, 4, 8, 8)
-    layer = ConvLayer(10, 4, 8, 0, 3, 5)
+    layer = ConvLayer(10, (4, 8, 8), 0, 3, 5)
     layer.forward(im)
     print layer.top_data.shape
     print im[0, :, 1:4, 0:3]
@@ -116,7 +116,7 @@ def test_col2im_batch():
 
 def test_pooling_layer():
     im = np.random.randn(2, 3, 8, 8)
-    layer = PoolingLayer(2, 3, 8, 1, 3, 1, pooling_type='Max')
+    layer = PoolingLayer(2, (3, 8, 8), 1, 3, 1, pooling_type='Max')
     layer.forward(im)
     print im
     print layer.top_data.shape

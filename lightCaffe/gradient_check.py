@@ -103,7 +103,7 @@ def check_inner_product_layer():
 
 
 def check_conv_layer():
-    layer = ConvLayer(3, 4, 8, 1, 3, 5)
+    layer = ConvLayer(3, (4, 8, 8), 1, 3, 5)
     btm_data = np.random.randn(3, 4, 8, 8)
     layer.forward(btm_data)
     top_diff = np.random.randn(3, 5, 8, 8)
@@ -156,7 +156,7 @@ def check_conv_layer():
 
 
 def check_pooling_layer():
-    layer = PoolingLayer(2, 3, 4, 1, 2, 1, pooling_type='Max')
+    layer = PoolingLayer(2, (3, 4, 4), 1, 2, 1, pooling_type='Max')
     btm_data = np.random.randn(2, 3, 4, 4)
     layer.forward(btm_data)
     top_diff = np.random.randn(2, 3, 5, 5)
