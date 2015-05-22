@@ -19,10 +19,18 @@ class Layer:
         self.need_update = False
 
     def print_information(self):
-        print '----------------------------------------------------------------------------------'
-        print "%25s: n_batch %4i, n_in %4i, n_out %4i, need_update %r" \
-              % (self.name, self.n_batch, self.n_in, self.n_out, self.need_update)
-        print '----------------------------------------------------------------------------------'
+        if isinstance(self.n_in, tuple):
+            print '----------------------------------------------------------------------------------'
+            print "%25s: n_batch %4i, n_channel %4i, height %4i, width %4i, out_channel %4i, " \
+                  "out_height %4i, out_width %4i, need_update %r" \
+                  % (self.name, self.n_batch, self.n_in[0], self.n_in[1], self.n_in[2],
+                     self.n_out[0], self.n_out[1], self.n_out[2], self.need_update)
+            print '----------------------------------------------------------------------------------'
+        else:
+            print '----------------------------------------------------------------------------------'
+            print "%25s: n_batch %4i, n_in %4i, n_out %4i, need_update %r" \
+                  % (self.name, self.n_batch, self.n_in, self.n_out, self.need_update)
+            print '----------------------------------------------------------------------------------'
 
 
 class ImageLayer(Layer):
@@ -44,12 +52,6 @@ class ImageLayer(Layer):
         self.need_update = False
         self.name = name
 
-    def print_information(self):
-        print '----------------------------------------------------------------------------------'
-        print "%25s: n_batch %4i, n_channel %4i, height %4i, width %4i, out_channel %4i, out_height %4i, out_width %4i" \
-              % (self.name, self.n_batch, self.n_channel, self.height, self.width,
-                 self.n_out[0], self.n_out[1], self.n_out[2])
-        print '----------------------------------------------------------------------------------'
 
 
 class PoolingLayer(ImageLayer):
@@ -268,15 +270,14 @@ class InnerProductLayer(Layer):
             self.need_update = True
         else:
             Layer.__init__(self, n_in, layer_param.inner_product_param.num_output, n_batch, layer_param.name)
-            self.W = np.random.randn(self.n_in, self.n_out) * sigma
-            self.b = np.random.randn(self.n_out) * sigma
+            self.W = np.random.randn(self.n_in, self.n_out) * layer_param.inner_product_param.sigma
+            self.b = np.random.randn(self.n_out) * layer_param.inner_product_param.sigma
             self.W_diff = None
             self.b_diff = None
             self.need_update = True
 
     def forward(self, btm_data):
         self.btm_data = btm_data
-        btm_data_shape = self.btm_data.shape
         self.top_data = np.dot(btm_data, self.W) + self.b
 
     def backward(self, top_diff):

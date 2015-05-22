@@ -12,6 +12,7 @@ layer {
     type: "inner_product_layer"
     inner_product_param {
         num_output: 500
+        sigma: 0.001
     }
 }
 layer {
@@ -23,6 +24,7 @@ layer {
     type: "inner_product_layer"
     inner_product_param {
         num_output: 10
+        sigma: 0.001
     }
 }
 layer {
