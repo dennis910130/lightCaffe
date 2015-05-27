@@ -209,6 +209,34 @@ def check_relu_layer():
     else:
         print "failed!"
 
+
+def check_sigmoid_layer():
+    layer = SigmoidLayer(3, (2, 2, 2))
+    btm_data = np.random.randn(3, 2, 2, 2)
+    layer.forward(btm_data)
+    top_data = layer.top_data
+    top_diff = np.random.randn(3, 2, 2, 2)
+    layer.backward(top_diff)
+    numerical_gradient = np.zeros((3, 2, 2, 2))
+    gradient = layer.btm_diff
+    eps = 1e-5
+    for i in range(0, 3):
+        for j in range(0, 2):
+            for m in range(0, 2):
+                for n in range(0, 2):
+                    btm_data[i, j, m, n] += eps
+                    layer.forward(btm_data)
+                    delta_top_data = layer.top_data - top_data
+                    delta_loss = np.sum(delta_top_data * top_diff)
+                    numerical_gradient[i, j, m, n] = delta_loss / eps
+                    btm_data[i, j, m, n] -= eps
+    print "SIGMOID LAYER:"
+    if is_near_enough(numerical_gradient, gradient):
+        print "passed!"
+    else:
+        print "failed!"
+
+
 if __name__ == '__main__':
     check_cross_entropy_loss_layer()
     check_soft_max_layer()
@@ -216,3 +244,4 @@ if __name__ == '__main__':
     check_relu_layer()
     check_conv_layer()
     check_pooling_layer()
+    check_sigmoid_layer()

@@ -4,31 +4,31 @@ import time
 from lightCaffe.layer import *
 
 
-def sgd_optimization_mnist(learning_rate=0.1, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=500):
+def sgd_optimization_mnist(learning_rate=0.1, n_epochs=30, data_set="../data/mnist.pkl.gz", batch_size=50):
 
     print '... initializing network'
 
     data_layer = PklDataLayer(batch_size, data_set)
     data_layer.load_data()
     data_layer.print_information()
-    layer0 = ConvLayer(batch_size, (1, 28, 28), 0, 5, 20, 1, 1e-3)
+    layer0 = ConvLayer(batch_size, (1, 28, 28), 0, 5, 20, 1, 1e-2)
     layer0.print_information()
     relu1 = ReLULayer(batch_size, (20, 24, 24))
     relu1.print_information()
     layer1 = PoolingLayer(batch_size, (20, 24, 24), 0, 2, 2)
     layer1.print_information()
-    layer2 = ConvLayer(batch_size, (20, 12, 12), 0, 5, 50, 1, 1e-3)
+    layer2 = ConvLayer(batch_size, (20, 12, 12), 0, 5, 50, 1, 1e-2)
     layer2.print_information()
     relu2 = ReLULayer(batch_size, (50, 8, 8))
     relu2.print_information()
     layer3 = PoolingLayer(batch_size, (50, 8, 8), 0, 2, 2)
     layer3.print_information()
 
-    ip_layer = InnerProductLayer(batch_size, 50*4*4, 500, 1e-3)
+    ip_layer = InnerProductLayer(batch_size, 50*4*4, 500, 5e-2)
     ip_layer.print_information()
     relu3 = ReLULayer(batch_size, 500)
     relu3.print_information()
-    ip_layer2 = InnerProductLayer(batch_size, 500, 10, 1e-3)
+    ip_layer2 = InnerProductLayer(batch_size, 500, 10, 5e-2)
     ip_layer2.print_information()
     soft_max_layer = SoftMaxLayer(batch_size, 10)
     soft_max_layer.print_information()
@@ -47,16 +47,22 @@ def sgd_optimization_mnist(learning_rate=0.1, n_epochs=30, data_set="../data/mni
 
         (data_input, label) = data_layer.get_next_batch_train()
         data_input = data_input.reshape((batch_size, 1, 28, 28))
+        print np.mean(data_input)
         layer0.forward(data_input)
         relu1.forward(layer0.top_data)
+        print np.mean(relu1.top_data)
         layer1.forward(relu1.top_data)
         layer2.forward(layer1.top_data)
         relu2.forward(layer2.top_data)
+        print np.mean(relu2.top_data)
         layer3.forward(relu2.top_data)
         ip_layer.forward(layer3.top_data.reshape((batch_size, -1)))
         relu3.forward(ip_layer.top_data)
+        print np.mean(relu3.top_data)
         ip_layer2.forward(relu3.top_data)
+        print np.max(ip_layer2.top_data)
         soft_max_layer.forward(ip_layer2.top_data)
+        print np.max(soft_max_layer.top_data)
         loss_layer.forward(soft_max_layer.top_data, label)
 
         loss_layer.backward()
@@ -70,6 +76,10 @@ def sgd_optimization_mnist(learning_rate=0.1, n_epochs=30, data_set="../data/mni
         layer1.backward(layer2.btm_diff)
         relu1.backward(layer1.btm_diff)
         layer0.backward(relu1.btm_diff)
+
+        print ip_layer2.W
+
+        print ip_layer2.W_diff
 
         ip_layer.update(learning_rate)
         ip_layer2.update(learning_rate)
@@ -88,7 +98,7 @@ def sgd_optimization_mnist(learning_rate=0.1, n_epochs=30, data_set="../data/mni
             for i in xrange(data_layer.n_val_batches):
                 (data_input, label) = data_layer.get_next_batch_val()
 
-                data_input.reshape((batch_size, 1, 28, 28))
+                data_input = data_input.reshape((batch_size, 1, 28, 28))
                 layer0.forward(data_input)
                 relu1.forward(layer0.top_data)
                 layer1.forward(relu1.top_data)

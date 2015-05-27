@@ -120,6 +120,18 @@ def test_pooling_layer():
     print layer.btm_diff
 
 
+def test_sigmoid_layer():
+    layer = SigmoidLayer(5, (2, 3, 3))
+    btm_data = np.random.randn(5, 2, 3, 3)
+    print btm_data
+    layer.forward(btm_data)
+    print layer.top_data
+    top_diff = np.random.randn(5, 2, 3, 3)
+    print top_diff
+    layer.backward(top_diff)
+    print layer.btm_diff
+
+
 if __name__ == "__main__":
     #test_layer()
     #test_inner_product_layer()
@@ -129,7 +141,8 @@ if __name__ == "__main__":
     #test_net_init()
     #test_im2col()
     #test_convolve3d()
-    test_conv_layer()
+    #test_conv_layer()
     #test_im2col_batch()
     #test_col2im_batch()
     #test_pooling_layer()
+    test_sigmoid_layer()

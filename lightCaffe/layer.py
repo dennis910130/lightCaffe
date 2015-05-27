@@ -349,3 +349,16 @@ class ReLULayer(Layer):
 
     def backward(self, top_diff):
         self.btm_diff = 1. * (self.btm_data > 0) * top_diff
+
+
+class SigmoidLayer(Layer):
+    def __init__(self, n_batch, n_in, name="Sigmoid Layer", layer_param=None):
+        if layer_param is None:
+            Layer.__init__(self, n_in, n_in, n_batch, name)
+
+    def forward(self, btm_data):
+        self.btm_data = btm_data
+        self.top_data = 1.0 / (1.0 + np.exp(-1.0 * self.btm_data))
+
+    def backward(self, top_diff):
+        self.btm_diff = top_diff * self.top_data * (1.0 - self.top_data)
